@@ -1,0 +1,22 @@
+# Credentials — never commit passwords
+credentials.txt
+*.credentials
+*.password
+secrets/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ISO files (too large)
+*.iso
+
+# Temporary files
+*.tmp
+*.bak
+~$*
+
+# Editor/IDE files
+.vscode/settings.json
+*.swp
