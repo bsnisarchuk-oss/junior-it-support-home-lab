@@ -1,43 +1,39 @@
 # Junior IT Support Home Lab
 
-A self-built home lab project simulating a small business IT environment.
+A personal home lab project simulating a small business IT environment.
 Built to practice and document real-world IT support skills for a Junior IT Engineer role.
 
-> **Status:** In progress — Day 1 complete (infrastructure planned, documentation started)
+> **Status:** In progress — Day 1 complete (repository structure created, lab plan defined, documentation started)
 
 ---
 
 ## What This Project Covers
 
 | Area | Skills Practiced |
-|------|-----------------|
-| Windows Workstations | Setup, user onboarding, software deployment |
-| Linux Server (Ubuntu) | SSH, Samba file sharing, cron, UFW firewall |
-| Networking | IP planning, DNS, DHCP, connectivity troubleshooting |
-| Incident Response | Documenting and resolving simulated IT issues |
-| Scripting | PowerShell (Windows), Bash (Linux) |
-| Documentation | IT procedures, checklists, inventory tracking |
-
+|------|-------------------|
+| Windows Workstation | Setup, user onboarding, software installation |
+| Ubuntu Server | SSH, Samba file sharing, basic administration |
+| Networking | IP configuration, connectivity checks, DNS troubleshooting |
+| Incident Response | Documenting and resolving common IT support issues |
+| Scripting | Basic PowerShell and Bash automation |
+| Documentation | Checklists, setup notes, inventory tracking |
 ---
 
 ## Lab Environment
 
-```
-[Internet]
-     |
-  [Router] 192.168.1.1
-     |
-  [Virtual Switch]
-     |
-  +-----------------+------------------+
-  |                 |                  |
-[ubuntu-server]  [win-ws-01]      [win-ws-02]
-192.168.1.10     192.168.1.20     192.168.1.21
-File + Backup    Workstation       Workstation
-```
+This lab is built in a local virtual environment.
 
-**Hypervisor:** VirtualBox / VMware Workstation
-**Network:** Host-only / Internal Network (192.168.1.0/24)
+### Planned virtual machines
+- `office-srv-01` — Ubuntu Server VM
+- `office-pc-01` — Windows workstation VM
+
+### Planned network design
+- Adapter 1: NAT (internet access for updates)
+- Adapter 2: Host-only network (lab communication)
+
+### Planned lab IP addresses
+- `office-srv-01` — `192.168.56.10`
+- `office-pc-01` — `192.168.56.20`
 
 ---
 
@@ -79,14 +75,16 @@ junior-it-support-home-lab/
 
 ## How to Use This Repo
 
-This repo is a living portfolio.
-Each folder contains step-by-step guides I follow during lab sessions.
-Incidents are documented as they are reproduced and resolved in the lab.
-Scripts are tested inside the virtual machines.
+This repository documents the development of a personal IT support home lab.
+
+- Documentation files describe the planned and completed lab steps
+- Scripts are prepared for use during hands-on VM setup
+- Screenshots are added as evidence during real lab execution
+- Incident reports are completed after reproducing and resolving issues manually
 
 ---
 
 ## Author
 
-Built as a personal learning project for a Junior IT Support / Junior IT Engineer role.
+Built as a personal learning project for an entry-level IT support role.
 All lab work is performed in a local virtual environment — no production systems involved.
