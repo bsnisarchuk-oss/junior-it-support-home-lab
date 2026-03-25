@@ -6,7 +6,7 @@ This file tracks the real current state of the lab, what has already been comple
 
 ---
 
-## Completed Work
+## Completed and Validated
 
 The following work is already done and verified:
 
@@ -14,9 +14,8 @@ The following work is already done and verified:
 - core documentation and templates written
 - Ubuntu Server VM deployed as `office-srv-01`
 - Windows 10 VM deployed as `office-pc-01`
-- VirtualBox networking configured with:
-  - Adapter 1 = NAT
-  - Adapter 2 = Host-only
+- VirtualBox Adapter 1 verified as NAT on both VMs
+- VirtualBox Adapter 2 verified as Host-only on both VMs
 - host-only communication working between the two VMs
 - SSH enabled and working on `office-srv-01`
 - Samba configured and working on `office-srv-01`
@@ -27,7 +26,7 @@ The following work is already done and verified:
 
 ---
 
-## Current Validated State
+## Current Lab State
 
 | Item | Current State |
 |------|---------------|
@@ -47,7 +46,15 @@ This is the verified baseline for the project at the moment.
 
 ---
 
-## Pending Manual Tasks
+## Evidence Collected So Far
+
+- `screenshots/server/` contains current server-side validation evidence
+- `screenshots/workstation/` contains current workstation-side validation evidence
+- the current evidence set covers hostname checks, IP checks, connectivity checks, SSH status, Samba status, share access, and the Windows file write test
+
+---
+
+## Remaining Manual Tasks
 
 The following work still needs to be done manually in the live lab:
 
@@ -60,12 +67,17 @@ The following work still needs to be done manually in the live lab:
 
 ---
 
-## Next Planned Milestones
+## Next Planned Step
 
-1. Incident evidence phase
-2. Deeper Samba documentation and permission testing
-3. Backup workflow design, implementation, and validation
-4. Inventory refinement and additional validation evidence
+- reproduce the first real incident scenario and capture troubleshooting evidence in `screenshots/incidents/`
+
+---
+
+## Later Planned Work
+
+- deeper Samba documentation and permission testing
+- backup workflow design, implementation, and validation
+- inventory refinement and additional validation evidence
 
 ---
 

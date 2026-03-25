@@ -85,6 +85,7 @@ junior-it-support-home-lab/
 |   `-- workstation/
 |-- screenshots/
 |   |-- incidents/
+|   |-- network/
 |   |-- server/
 |   `-- workstation/
 |-- scripts/
@@ -110,7 +111,7 @@ Completed and verified:
 
 Planned next steps:
 
-- reproduce incident scenarios and capture evidence in `screenshots/incidents/`
+- reproduce incident scenarios and capture real troubleshooting evidence in `screenshots/incidents/`
 - document the live Samba configuration in more detail
 - test permissions more deeply
 - document backup automation after it is configured on the live server
