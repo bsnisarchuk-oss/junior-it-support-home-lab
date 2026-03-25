@@ -1,25 +1,20 @@
-# IP Addressing Plan
+# Current IP Addressing
 
-## Network: 192.168.1.0/24
+This file records the current verified IP information for the live lab.
 
-| IP Address    | Hostname           | Device Type    | Role             |
-|---------------|--------------------|----------------|------------------|
-| 192.168.1.1   | router             | Router         | Gateway / DHCP   |
-| 192.168.1.10  | ubuntu-server      | Virtual Machine | File/Backup Server |
-| 192.168.1.20  | win-workstation-01 | Virtual Machine | Workstation      |
-| 192.168.1.21  | win-workstation-02 | Virtual Machine | Workstation      |
-| 192.168.1.100–200 | (dynamic)      | DHCP Pool      | Dynamic clients  |
+---
 
-## DNS
+## Host-only Communication Addresses
 
-- Primary DNS: 8.8.8.8 (Google)
-- Secondary DNS: 8.8.4.4 (Google)
+| IP Address | Hostname | Device Type | Role | Status |
+|------------|----------|-------------|------|--------|
+| `192.168.56.101` | `office-srv-01` | Virtual machine | Ubuntu Server file server | Verified |
+| `192.168.56.102` | `office-pc-01` | Virtual machine | Windows 10 workstation | Verified |
 
-## Subnet Details
+---
 
-| Parameter   | Value           |
-|-------------|-----------------|
-| Network     | 192.168.1.0     |
-| Subnet Mask | 255.255.255.0   |
-| Gateway     | 192.168.1.1     |
-| Broadcast   | 192.168.1.255   |
+## Notes
+
+- these are the addresses currently used for VM-to-VM communication inside the lab
+- SSH and Samba validation use the `192.168.56.x` addresses above
+- the NAT adapter also exists on both VMs, but those NAT-side addresses are not tracked in this repo because they are not used for the internal lab checks documented here

@@ -1,5 +1,7 @@
 # Requirements
 
+This file describes what is needed to reproduce or extend the **current** lab environment shown in this repository.
+
 ---
 
 ## Host Machine Requirements
@@ -9,12 +11,11 @@
 | CPU | 4 cores with VT-x / AMD-V | 6+ cores |
 | RAM | 12 GB | 16 GB |
 | Disk | 100 GB free | 150 GB free |
-| OS | Windows 10 / Windows 11 | Windows 11 |
-| Virtualization | VT-x / AMD-V enabled in BIOS | — |
+| Host OS | Windows 10 or Windows 11 | Windows 10 or Windows 11 |
+| Virtualization | VT-x / AMD-V enabled in BIOS | Required |
 
-> ⚙️ Check that virtualization is enabled in BIOS before installing the hypervisor.
-> On Intel: look for "Intel Virtualization Technology" → Enable.
-> On AMD: look for "SVM Mode" → Enable.
+Before installing the hypervisor, confirm virtualization is enabled in BIOS or UEFI.
+This row refers to the host machine, not to the Windows 10 workstation inside the lab.
 
 ---
 
@@ -22,51 +23,52 @@
 
 | Software | Purpose | Where to Get |
 |----------|---------|--------------|
-| VirtualBox 7.x | Hypervisor (free) | virtualbox.org |
-| Ubuntu Server 22.04 LTS ISO | Server OS | ubuntu.com/download/server |
-| Windows 11 ISO | Workstation OS | microsoft.com/software-download/windows11 |
+| VirtualBox 7.x | Hypervisor | virtualbox.org |
+| Ubuntu Server ISO | Server OS | ubuntu.com/download/server |
+| Windows 10 ISO | Workstation OS | microsoft.com/software-download/windows10 |
 
-> Store ISOs in a local folder. Do not upload them to this repository (large files, licensing).
+Do not upload ISO files to this repository.
+
+---
+
+## Current Verified Lab Baseline
+
+The items below are already true in the current live lab:
+
+- [x] Ubuntu Server VM created
+- [x] Windows 10 VM created
+- [x] Ubuntu hostname set to `office-srv-01`
+- [x] Windows hostname set to `office-pc-01`
+- [x] VirtualBox Adapter 1 set to NAT on both VMs
+- [x] VirtualBox Adapter 2 set to Host-only on both VMs
+- [x] `office-srv-01` reachable at `192.168.56.101`
+- [x] `office-pc-01` reachable at `192.168.56.102`
+- [x] SSH working on the Ubuntu server
+- [x] Samba working on the Ubuntu server
+- [x] Windows can open `\\192.168.56.101\companydocs`
+- [x] `windows-test.txt` was created from Windows in the shared folder
+
+---
+
+## Planned Next Work
+
+The items below are **not** yet marked complete in the current lab and still require manual work:
+
+- [ ] reproduce Incident 01 and capture screenshots
+- [ ] reproduce Incident 02 and capture screenshots
+- [ ] define and test the software-installation incident on the current workstation
+- [ ] configure and test backup automation on the live server
+- [ ] capture the live Samba server-side path and document it
+- [ ] expand inventory with host hardware details and any verified software details
 
 ---
 
 ## Skills Prerequisites
 
-You do not need to be an expert — this lab is designed for beginners.
-Basic familiarity with the following is helpful:
+You do not need to be an expert. This lab is aimed at beginner-level IT support practice.
 
-- Using Windows (file manager, settings, command prompt)
-- Basic Linux command line (navigating directories, running commands with `sudo`)
-- Basic networking concepts (what is an IP address, what is DNS, what is a gateway)
+Helpful background knowledge:
 
----
-
-## Project Goals Checklist
-
-### Infrastructure
-- [ ] VirtualBox installed and Host-only network created
-- [ ] Ubuntu Server VM created and OS installed
-- [ ] Windows 11 VM (WS-01) created and OS installed
-- [ ] Windows 11 VM (WS-02) created and OS installed (optional — clone of WS-01)
-
-### Server Configuration
-- [ ] Static IP configured on Ubuntu Server (192.168.1.10)
-- [ ] SSH access working from host machine
-- [ ] UFW firewall enabled with SSH and Samba rules
-- [ ] Samba installed and shared folder accessible from Windows
-- [ ] Backup script running and tested manually
-- [ ] Backup cron job scheduled and confirmed in log
-
-### Workstation Configuration
-- [ ] Static IP configured on WIN-WS-01 (192.168.1.20)
-- [ ] Standard software installed on WIN-WS-01
-- [ ] Shared folder mapped as Z: drive on WIN-WS-01
-- [ ] WIN-WS-02 set up (repeat of WIN-WS-01 steps)
-
-### Documentation and Portfolio
-- [ ] All 4 incidents reproduced, investigated, and resolved
-- [ ] All incident files filled in (root cause + resolution + screenshots)
-- [ ] Inventory updated with actual specs
-- [ ] Screenshots taken as evidence for each major step
-- [ ] PROGRESS.md updated after each lab session
-- [ ] Repository pushed to GitHub
+- using Windows settings, File Explorer, and PowerShell
+- basic Linux terminal usage
+- basic networking concepts such as IP addressing, DNS, and service ports

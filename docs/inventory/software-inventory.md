@@ -1,53 +1,47 @@
 # Software Inventory
 
-> **Status:** Planned configuration — ⚙️ check boxes after software is installed and verified.
+This file records software that is **verified** in the current lab and separates it from software that is only planned.
 
 ---
 
-## Ubuntu Server (VM-001 — ubuntu-server)
+## Verified in the Current Lab
 
-| Software | Version | Purpose | Install Command | Installed |
-|----------|---------|---------|-----------------|-----------|
-| Ubuntu Server | 22.04 LTS | Server OS | _(ISO)_ | ⚙️ |
-| OpenSSH Server | Latest | Remote access via SSH | Included in OS installer | ⚙️ |
-| Samba | Latest | Windows file sharing (SMB) | `apt install samba` | ⚙️ |
-| rsync | Latest | File backup/sync | `apt install rsync` | ⚙️ |
-| UFW | Latest | Firewall management | Included in Ubuntu | ⚙️ |
+### `office-srv-01`
 
----
+| Software | Version | Purpose | Status |
+|----------|---------|---------|--------|
+| Ubuntu Server | _(version not recorded in repo)_ | Server OS | Verified running |
+| OpenSSH Server | _(version not recorded in repo)_ | Remote administration | Verified working |
+| Samba | _(version not recorded in repo)_ | Windows file sharing | Verified working |
 
-## Workstation Software (WIN-WS-01 and WIN-WS-02)
+### `office-pc-01`
 
-| Software | Version | Purpose | winget ID | WS-01 | WS-02 |
-|----------|---------|---------|-----------|-------|-------|
-| Windows 11 | 23H2+ | Workstation OS | _(ISO)_ | ⚙️ | ⚙️ |
-| Windows Updates | Latest | Security + stability | Windows Update | ⚙️ | ⚙️ |
-| Google Chrome | Latest | Web browser | `Google.Chrome` | ⚙️ | ⚙️ |
-| 7-Zip | Latest | File archiver | `7zip.7zip` | ⚙️ | ⚙️ |
-| Notepad++ | Latest | Text / code editor | `Notepad++.Notepad++` | ⚙️ | ⚙️ |
-| VLC Media Player | Latest | Media playback | `VideoLAN.VLC` | ⚙️ | ⚙️ |
-| PuTTY | Latest | SSH / Telnet client | `PuTTY.PuTTY` | ⚙️ | ⚙️ |
-| WinSCP | Latest | SFTP / SCP file transfer | `WinSCP.WinSCP` | ⚙️ | ⚙️ |
-
-> Install all workstation software using: `scripts/windows/install-common-software.ps1`
+| Software | Version | Purpose | Status |
+|----------|---------|---------|--------|
+| Windows 10 | _(version not recorded in repo)_ | Workstation OS | Verified running |
 
 ---
 
-## Legend
+## Planned or Not Yet Recorded
 
-| Symbol | Meaning |
-|--------|---------|
-| ⚙️ | Planned — not yet installed |
-| ✅ | Installed and verified |
-| ❌ | Installation failed — see incident log |
+The items below may be added later, but they are not yet documented as verified in the live lab:
+
+- workstation application inventory
+- backup tooling on the server
+- firewall configuration details
+
+---
+
+## Notes
+
+- only add software here after it has been checked in the live lab
+- if you later document additional packages, record the actual version where possible
 
 ---
 
 ## Change Log
 
-| Date | Device | Software | Action | Done by |
-|------|--------|----------|--------|---------|
-| 2026-03-22 | — | All | Initial inventory created | Admin |
-| _(fill in)_ | ubuntu-server | Samba | Installed | _(fill in)_ |
-| _(fill in)_ | WIN-WS-01 | Standard suite | Installed via script | _(fill in)_ |
-| _(fill in)_ | WIN-WS-02 | Standard suite | Installed via script | _(fill in)_ |
+| Date | Change |
+|------|--------|
+| 2026-03-22 | Initial inventory file created |
+| 2026-03-25 | Inventory aligned to the current verified lab state |

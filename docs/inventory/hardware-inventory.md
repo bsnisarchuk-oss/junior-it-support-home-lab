@@ -1,52 +1,45 @@
 # Hardware Inventory
 
-> **Status:** Planned configuration — ⚙️ fill in actual specs after VMs are created.
+This file records the current verified lab hardware and virtual machine inventory.
 
 ---
 
 ## Host Machine
 
-> ⚙️ Fill in your actual host machine specs below.
+Host machine details are still to be filled in manually.
 
 | Component | Specification |
 |-----------|---------------|
 | Manufacturer / Model | _(fill in)_ |
-| CPU | _(fill in — e.g., Intel Core i7-10700)_ |
-| RAM | _(fill in — e.g., 16 GB DDR4)_ |
-| Disk | _(fill in — e.g., 512 GB NVMe SSD)_ |
-| OS | Windows 11 Home / Pro |
-| Hypervisor | VirtualBox 7.x / VMware Workstation |
+| CPU | _(fill in)_ |
+| RAM | _(fill in)_ |
+| Disk | _(fill in)_ |
+| Host OS | _(fill in)_ |
+| Hypervisor | `VirtualBox` |
 
 ---
 
-## Virtual Machines
+## Current Virtual Machines
 
-| ID | Hostname | OS | Role | vCPU | RAM | Disk | IP | Status |
-|----|----------|----|------|------|-----|------|-----|--------|
-| VM-001 | ubuntu-server | Ubuntu Server 22.04 LTS | File server, backup server | 2 | 2 GB | 20 GB | 192.168.1.10 | ⚙️ Planned |
-| VM-002 | WIN-WS-01 | Windows 11 | Workstation | 2 | 4 GB | 40 GB | 192.168.1.20 | ⚙️ Planned |
-| VM-003 | WIN-WS-02 | Windows 11 | Workstation | 2 | 4 GB | 40 GB | 192.168.1.21 | ⚙️ Planned |
-
-> Update "Status" column as VMs are created: Planned → Created → Configured → Active
+| ID | Hostname | OS | Role | Current IP | Status | Notes |
+|----|----------|----|------|------------|--------|-------|
+| VM-001 | `office-srv-01` | Ubuntu Server | File server | `192.168.56.101` | Verified active | SSH and Samba working |
+| VM-002 | `office-pc-01` | Windows 10 | Workstation | `192.168.56.102` | Verified active | Accesses `\\192.168.56.101\companydocs` |
 
 ---
 
-## Network Devices (Virtual)
+## Virtual Networking
 
-| Device | Type | IP | Notes |
-|--------|------|----|-------|
-| Virtual Router / Gateway | Host-only network gateway | 192.168.1.1 | Provided by hypervisor |
-| Virtual Switch | Host-only adapter | — | Internal lab network |
+| Adapter | Mode | Purpose |
+|---------|------|---------|
+| Adapter 1 | NAT | Outbound internet access |
+| Adapter 2 | Host-only | Internal communication between `office-srv-01` and `office-pc-01` |
 
 ---
 
 ## Change Log
 
-> Record any hardware changes here.
-
-| Date | Device | Change | Done by |
-|------|--------|--------|---------|
-| 2026-03-22 | — | Initial inventory created | Admin |
-| _(fill in)_ | VM-001 | VM created in VirtualBox | _(fill in)_ |
-| _(fill in)_ | VM-002 | VM created in VirtualBox | _(fill in)_ |
-| _(fill in)_ | VM-003 | VM created in VirtualBox | _(fill in)_ |
+| Date | Change |
+|------|--------|
+| 2026-03-22 | Initial inventory file created |
+| 2026-03-25 | Inventory aligned to the current verified two-VM lab |

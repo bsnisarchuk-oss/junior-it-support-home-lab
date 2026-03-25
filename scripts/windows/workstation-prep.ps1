@@ -1,8 +1,8 @@
-# workstation-prep.ps1 — Prepare a new Windows workstation
+# workstation-prep.ps1 - Prepare a Windows workstation
 
 #Requires -RunAsAdministrator
 
-$ComputerName = Read-Host "Enter new computer name (e.g., WIN-WS-01)"
+$ComputerName = Read-Host "Enter new computer name (e.g., office-pc-01)"
 
 Write-Host "[INFO] Renaming computer to: $ComputerName"
 Rename-Computer -NewName $ComputerName -Force
@@ -14,8 +14,7 @@ Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 Write-Host "[INFO] Disabling Sleep on AC power..."
 powercfg /change standby-timeout-ac 0
 
-Write-Host "[INFO] Setting timezone to Moscow Standard Time..."
-Set-TimeZone -Id "Russian Standard Time"
+Write-Host "[INFO] Leaving timezone unchanged. Set it manually if needed for your lab."
 
 Write-Host "[INFO] Enabling Windows Update..."
 Set-Service -Name wuauserv -StartupType Automatic

@@ -1,50 +1,49 @@
 # Remote Access
 
+**Current state:** SSH access to `office-srv-01` is already working.
+
+---
+
 ## SSH Access
 
-### From Linux/macOS
+### From Windows Terminal or PowerShell
+
+```powershell
+ssh <your-ubuntu-user>@192.168.56.101
+```
+
+### From PuTTY
+
+- Host: `192.168.56.101`
+- Port: `22`
+- Connection type: `SSH`
+- Username: use the Ubuntu account that exists on the live VM
+
+---
+
+## Optional Future Hardening
+
+The items below are good next steps, but they are **not** documented as complete in the current lab:
+
 ```bash
-ssh admin@192.168.1.10
-```
-
-### From Windows
-Use PuTTY or Windows Terminal:
-```
-Host: 192.168.1.10
-Port: 22
-```
-
-## SSH Key Authentication (Recommended)
-
-```bash
-# Generate key pair on client
+# Generate a key pair on the client
 ssh-keygen -t ed25519 -C "lab-admin"
-
-# Copy public key to server
-ssh-copy-id admin@192.168.1.10
 ```
 
-## Disable Password Auth (after key setup)
+After key setup, you can review SSH hardening such as disabling password authentication.
 
-```bash
-sudo nano /etc/ssh/sshd_config
-# Set: PasswordAuthentication no
-sudo systemctl restart ssh
+---
+
+## Simple File Transfer
+
+Use the home directory if you just need to copy a file to the server without assuming the Samba share path:
+
+```powershell
+scp file.txt <your-ubuntu-user>@192.168.56.101:~/
 ```
 
-## File Transfer
+Or start an SFTP session:
 
-```bash
-# SCP
-scp file.txt admin@192.168.1.10:/srv/shared/
-
-# SFTP (interactive)
-sftp admin@192.168.1.10
+```powershell
+sftp <your-ubuntu-user>@192.168.56.101
 ```
-
-## WinSCP (Windows GUI)
-
-- Protocol: SFTP
-- Host: 192.168.1.10
-- Port: 22
-- Username: admin

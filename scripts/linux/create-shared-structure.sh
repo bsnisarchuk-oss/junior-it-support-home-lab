@@ -1,9 +1,10 @@
 #!/bin/bash
-# create-shared-structure.sh — Create folder structure inside the shared directory
+# create-shared-structure.sh - Create folder structure inside the shared directory
 
 set -e
 
-SHARE_DIR="/srv/shared"
+# Template default only. Review before using in the live lab.
+SHARE_DIR="${SHARE_DIR:-/srv/shared}"
 
 echo "[INFO] Creating shared folder structure in $SHARE_DIR..."
 

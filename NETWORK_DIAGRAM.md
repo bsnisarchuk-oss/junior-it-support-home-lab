@@ -1,26 +1,30 @@
 # Network Diagram
 
-## Topology
+## Current Topology
 
+```text
+                [Internet]
+                    ^
+                    |
+         VirtualBox Adapter 1: NAT
+
+office-srv-01 --------------------------- office-pc-01
+192.168.56.101      Adapter 2: Host-only      192.168.56.102
 ```
-[Internet]
-     |
-  [Router]
-  192.168.1.1
-     |
-  [Switch]
-     |
-  +---------+-----------+----------+
-  |                     |          |
-[ubuntu-server]  [win-ws-01]  [win-ws-02]
-192.168.1.10     192.168.1.20  192.168.1.21
-```
+
+---
+
+## Notes
+
+- both VMs use **Adapter 1 = NAT** for outbound internet access
+- both VMs use **Adapter 2 = Host-only** for private lab communication
+- the host-only connection is the path used for SSH and Samba validation between the VMs
+
+---
 
 ## Devices
 
-| Device             | IP Address    | Role             |
-|--------------------|---------------|------------------|
-| Router             | 192.168.1.1   | Gateway / DHCP   |
-| ubuntu-server      | 192.168.1.10  | File/Backup Server |
-| win-workstation-01 | 192.168.1.20  | Workstation      |
-| win-workstation-02 | 192.168.1.21  | Workstation      |
+| Device | IP Address | Role |
+|--------|------------|------|
+| `office-srv-01` | `192.168.56.101` | Ubuntu Server file server |
+| `office-pc-01` | `192.168.56.102` | Windows 10 workstation |

@@ -2,8 +2,7 @@
 
 This folder contains validation evidence collected during hands-on lab work.
 
-All screenshots in this directory reflect real completed steps from the project.
-Nothing should be added here unless it was actually performed and verified in the lab.
+All screenshots in this directory should reflect real completed steps from the project. Do not add placeholders or mock evidence.
 
 ---
 
@@ -11,18 +10,18 @@ Nothing should be added here unless it was actually performed and verified in th
 
 | Folder | Contents |
 |--------|----------|
-| `server/` | Ubuntu Server installation, SSH verification, Samba setup and validation |
-| `workstation/` | Windows workstation setup, network checks, access to Samba shared folder |
-| `network/` | Network-related screenshots and diagnostics |
-| `incidents/` | Evidence for simulated incident scenarios (broken state and resolved state) |
+| `server/` | Ubuntu Server validation, SSH checks, and Samba validation |
+| `workstation/` | Windows workstation validation and access to the Samba share |
+| `network/` | Reserved for future network-specific validation screenshots after manual lab testing |
+| `incidents/` | Future incident evidence captured during simulated troubleshooting |
 
 ---
 
 ## Current Screenshot Naming Style
 
-Screenshots are named using ordered prefixes to reflect project progress.
+Screenshots use ordered numeric prefixes to show the order of the work.
 
-Examples:
+Examples from the current repo:
 
 ```text
 server/01-hostnamectl.png
@@ -31,47 +30,59 @@ server/03-ping-c-4-8.8.8.8.png
 server/04-ping-c-4-google.com.png
 server/05-systemctl-status-ssh.png
 server/06-apt-update-upgrade.png
-
 server/07-companydocs-structure.png
 server/08-samba-config-block.png
 server/09-systemctl-status-smbd.png
 server/10-smbclient-localhost.png
 
 workstation/13-windows-ipconfig.png
-workstation/14-ping-ubuntu-server.png
+workstation/14-ping-office-srv-01.png
 workstation/15-companydocs-open-from-windows.png
-workstation/16-shared-folder-write-test.png
+workstation/16-companydocs-write-test.png
+```
 
-##Current Completed Screenshot Sets## 
+---
 
-Server
+## Current Completed Screenshot Sets
 
-Current server-side evidence should cover:
+### Server
 
-Ubuntu hostname and OS details
-network interface information
-internet connectivity test
-DNS resolution test
-SSH service status
-package update / upgrade result
-Samba shared folder structure
-Samba configuration block
-Samba service status
-local Samba share validation with smbclient
+Current server-side evidence covers:
 
-##Workstation##
+- hostname and OS details
+- network interface information
+- internet connectivity test
+- DNS resolution test
+- SSH service status
+- package update / upgrade result
+- Samba shared folder structure
+- Samba configuration block
+- Samba service status
+- local Samba validation with `smbclient`
 
-Current workstation-side evidence should cover:
+### Workstation
 
-Windows IP configuration
-ping from Windows to Ubuntu server
-successful opening of \\192.168.56.101\companydocs
-successful write test inside Shared
+Current workstation-side evidence covers:
 
-##Notes##
+- Windows IP configuration
+- ping from Windows to `office-srv-01`
+- successful opening of `\\192.168.56.101\companydocs`
+- successful write test inside `companydocs`
 
-Keep only clear and useful screenshots
-Prefer one screenshot per validation step
-Use real evidence only
-If a step was not completed, do not create placeholder screenshots
-Incident screenshots will be added later as troubleshooting scenarios are completed
+---
+
+## Placeholder Folders
+
+The folders below are intentional placeholders, not completed evidence sets:
+
+- `network/` exists for future network-specific screenshots that are validated manually in the live lab
+- `incidents/` exists for future incident evidence after each scenario is reproduced and resolved
+
+---
+
+## Notes
+
+- keep only clear and useful screenshots
+- prefer one screenshot per validation step
+- use real evidence only
+- placeholder folders should contain a short README until real screenshots exist

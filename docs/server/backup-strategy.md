@@ -1,161 +1,55 @@
-# Backup Strategy
+# Backup Strategy (Planned)
 
-> **Status:** Guide written, script created — ⚙️ must be tested manually on the Ubuntu Server.
-> **Prerequisite:** Samba shared folder is configured at `/srv/shared`.
-
----
-
-## Overview
-
-Daily automated backup of the Samba shared folder (`/srv/shared`) to a local backup directory (`/srv/backups`).
-Uses `rsync` for efficient incremental copying and a `cron` job for scheduling.
-Backups older than 7 days are automatically deleted.
+**Status:** future lab phase. Backup automation is not yet documented as complete in the current live lab.
 
 ---
 
-## Backup Summary
+## Current Position
 
-| Setting | Value |
-|---------|-------|
-| Source | `/srv/shared` |
-| Destination | `/srv/backups/YYYY-MM-DD/` |
-| Schedule | Daily at 02:00 |
-| Retention | 7 days |
-| Tool | rsync + cron |
-| Log file | `/var/log/backup.log` |
+The live lab already has a working Samba share, but the backup workflow still needs to be configured, tested, and documented from the actual server.
+
+Until that happens, this file should be treated as a **planning guide**, not a completed implementation record.
 
 ---
 
-## 1. Prepare Backup Directory
+## Planned Approach
 
-> ⚙️ **Run on the server.**
+The intended backup flow is:
 
-```bash
-sudo mkdir -p /srv/backups
-sudo mkdir -p /opt/scripts
-```
-
----
-
-## 2. Deploy the Backup Script
-
-Copy the script from the repository to the server:
-```bash
-sudo cp scripts/linux/backup-docs.sh /opt/scripts/backup-docs.sh
-sudo chmod +x /opt/scripts/backup-docs.sh
-```
-
-Review the script before running:
-```bash
-cat /opt/scripts/backup-docs.sh
-```
+- back up the local directory behind the `companydocs` Samba share
+- store dated backups on the Ubuntu server
+- schedule the job with `cron`
+- keep a simple log for validation and troubleshooting
 
 ---
 
-## 3. Test the Script Manually
+## Important Documentation Gap
 
-> ⚙️ **Run on the server.**
+Before using the backup script in `scripts/linux/backup-docs.sh`, record the live server-side source path for the current `companydocs` share.
 
-```bash
-sudo /opt/scripts/backup-docs.sh
-```
-
-Expected output:
-```
-[INFO] Starting backup: 2026-03-22
-[INFO] Source: /srv/shared
-[INFO] Destination: /srv/backups/2026-03-22
-[INFO] Backup completed successfully.
-[INFO] Remaining backups:
-2026-03-22
-[DONE] Backup job finished at ...
-```
-
-Verify backup was created:
-```bash
-ls -lh /srv/backups/
-ls -lh /srv/backups/$(date +%Y-%m-%d)/
-```
-
-**⚙️ Screenshot to take:** Backup output and directory listing → `screenshots/server/backup-manual-run.png`
+That path is not guessed in this repository yet and should be captured directly from the running server configuration.
 
 ---
 
-## 4. Schedule with Cron
+## Planned Implementation Checklist
 
-> ⚙️ **Run on the server.**
-
-Open the crontab editor:
-```bash
-crontab -e
-```
-
-Add this line at the end:
-```
-0 2 * * * /opt/scripts/backup-docs.sh >> /var/log/backup.log 2>&1
-```
-
-This runs the script every day at 02:00 and appends output to the log file.
-
-Verify the cron job was saved:
-```bash
-crontab -l
-```
+- [ ] identify and document the live source directory for `companydocs`
+- [ ] review and update `scripts/linux/backup-docs.sh` with the real source path
+- [ ] copy the reviewed script to the server
+- [ ] run the script manually and verify the output
+- [ ] schedule the job with `cron`
+- [ ] capture real evidence after a successful run
 
 ---
 
-## 5. Monitor Backup Logs
+## Planned Verification
 
-After the first scheduled run:
-```bash
-# View last 20 lines of backup log
-tail -20 /var/log/backup.log
+When this phase is completed later, document:
 
-# View all backups stored
-ls -lh /srv/backups/
-```
-
-**⚙️ Screenshot to take:** Log file showing successful scheduled run → `screenshots/server/backup-log.png`
-
----
-
-## 6. Recovery Procedure
-
-To restore files from a backup:
-
-```bash
-# List available backup dates
-ls /srv/backups/
-
-# Restore from a specific date (replace date as needed)
-sudo rsync -av /srv/backups/2026-03-22/ /srv/shared/
-```
-
-> ⚠️ Restoring overwrites files in `/srv/shared/`. Always confirm the date before restoring.
-
----
-
-## 7. Verification Checklist
-
-| Check | Command | Expected Result | ⚙️ Result |
-|-------|---------|-----------------|----------|
-| Script exists | `ls -l /opt/scripts/backup-docs.sh` | File listed, executable | |
-| Manual run succeeds | `sudo /opt/scripts/backup-docs.sh` | DONE message, no errors | |
-| Backup folder created | `ls /srv/backups/` | Today's date folder exists | |
-| Cron job scheduled | `crontab -l` | Line with backup script | |
-| Log file exists | `cat /var/log/backup.log` | Backup entries visible | |
-
----
-
-## Troubleshooting
-
-| Problem | Check | Fix |
-|---------|-------|-----|
-| Script not found | `ls /opt/scripts/` | Re-copy script to correct path |
-| Permission denied | `ls -l /opt/scripts/backup-docs.sh` | `chmod +x` the script |
-| rsync not installed | `rsync --version` | `sudo apt install rsync -y` |
-| Cron not running | `sudo systemctl status cron` | `sudo systemctl start cron` |
-| No log output | `tail /var/log/backup.log` | Check cron job line for syntax |
-| Disk full | `df -h /srv/backups` | Reduce retention or expand disk |
+- the exact backup source path
+- the exact backup destination path
+- the cron entry that was used
+- the log location
+- the evidence screenshots captured from the live server
 
 See also: `docs/incidents/incident-04-backup-job-failure.md`

@@ -1,14 +1,4 @@
-
----
-
-# `PROJECT_OVERVIEW.md`
-
-```md id="7fa4px"
-# PROJECT_OVERVIEW.md
-
-## Project Title
-
-**Junior IT Support Home Lab**
+# Project Overview
 
 ---
 
@@ -16,114 +6,87 @@
 
 This project is a small home lab designed to simulate a basic office IT environment.
 
-It uses two virtual machines:
+The current real lab uses two virtual machines in VirtualBox:
 
-- an **Ubuntu Server** acting as a file server
-- a **Windows 10 workstation** acting as a client PC
+- an **Ubuntu Server** VM acting as a file server
+- a **Windows 10 workstation** VM acting as a client PC
 
-The lab is built in **VirtualBox** and is intended to demonstrate practical junior IT support skills through real system configuration, connectivity testing, file sharing, and documentation.
-
----
-
-## Main Objective
-
-The objective of this project is to build and verify a working support lab that reflects common beginner-level IT tasks, including:
-
-- creating and configuring virtual machines
-- setting up internal lab networking
-- enabling remote administration with SSH
-- configuring file sharing with Samba
-- connecting a Windows workstation to a Linux-hosted network share
-- validating access and functionality
+The project is intended to demonstrate practical junior IT support skills through real system configuration, connectivity testing, file sharing, validation, and documentation.
 
 ---
 
-## What the Project Does
-
-The project creates a small office-style environment where:
-
-1. the Ubuntu Server provides shared resources
-2. the Windows workstation connects to those resources
-3. both machines communicate over an isolated internal lab network
-4. the server can be remotely managed using SSH
-5. shared folder access can be tested from the Windows client
-
-This setup allows practice with basic support tasks that are common in real IT environments.
-
----
-
-## Current Environment
+## Current Verified Environment
 
 ### Ubuntu Server VM
+
 - **Hostname:** `office-srv-01`
 - **Role:** File server
 - **IP Address:** `192.168.56.101`
 
-### Windows 10 VM
+### Windows Workstation VM
+
 - **Hostname:** `office-pc-01`
-- **Role:** Workstation
+- **Role:** Client workstation
 - **IP Address:** `192.168.56.102`
 
 ### VirtualBox Networking
+
 - **Adapter 1:** NAT
 - **Adapter 2:** Host-only
 
-This configuration allows:
-- internet access through NAT
-- internal communication through Host-only networking
+This allows the lab to keep outbound internet access while also keeping a dedicated internal connection between the server and workstation.
 
 ---
 
-## Configured Services
+## Services Configured
 
-### 1. SSH
-SSH is enabled on the Ubuntu server for remote terminal access and administration.
+### SSH
 
-### 2. Samba
-Samba is configured on the Ubuntu server to provide a shared folder to the Windows workstation.
+SSH is enabled on the Ubuntu server and working correctly.
 
-- **Share name:** `companydocs`
-- **Windows path:** `\\192.168.56.101\companydocs`
+### Samba
+
+Samba is configured on the Ubuntu server and is accessible from Windows at:
+
+- `\\192.168.56.101\companydocs`
 
 ---
 
 ## Verified Results
 
-The following results have been confirmed:
+The following results are already confirmed in the live lab:
 
-- both VMs are running correctly
-- both systems have working IP addresses on the host-only network
-- SSH access to Ubuntu is working
-- the Samba share is accessible from Windows
-- a file named `windows-test.txt` was successfully created from Windows in the shared folder
+- both VMs are running
+- both systems can communicate over the host-only network
+- SSH access to the Ubuntu server works
+- the Samba share opens from Windows
+- `windows-test.txt` was created from Windows inside the shared folder
 
-These tests confirm that the core lab setup is functional.
+These checks confirm that the core lab is functional.
 
 ---
 
 ## Technologies Used
 
-- **VirtualBox**
-- **Ubuntu Server**
-- **Windows 10**
-- **SSH**
-- **Samba**
-- **Host-only networking**
-- **NAT networking**
+- VirtualBox
+- Ubuntu Server
+- Windows 10
+- SSH
+- Samba
+- NAT networking
+- Host-only networking
 
 ---
 
 ## Skills Practiced
 
-This project helps build practical experience in:
-
 - virtual machine management
-- basic network setup
+- network verification
 - Linux administration
-- Windows client support
-- remote access tools
-- file sharing and permissions basics
-- connectivity validation
+- Windows workstation support
+- remote access validation
+- file sharing basics
+- troubleshooting
 - technical documentation
 
 ---
@@ -132,30 +95,23 @@ This project helps build practical experience in:
 
 This project is suitable for a junior IT support portfolio because it demonstrates:
 
-- initiative in building a lab independently
-- understanding of both Windows and Linux environments
-- ability to configure and test core services
-- ability to document technical work in a clear and structured way
+- initiative in building a working lab independently
+- practical experience across Windows and Linux
+- ability to configure and verify core services
+- ability to document technical work in a clear, beginner-friendly format
 
-It is especially useful for entry-level roles involving:
-- desktop support
-- IT support technician work
-- helpdesk
-- junior systems support
+It is especially relevant to entry-level roles such as desktop support, helpdesk, junior IT support, and junior systems support.
 
 ---
 
-## Possible Future Improvements
+## Planned Next Steps
 
-Planned future additions may include:
+The next planned phase of the lab includes:
 
-- user account and permission testing
-- mapped network drives in Windows
-- service restart and recovery scenarios
-- network troubleshooting tasks
-- incident simulation and documentation
-- screenshot-based validation evidence
-- step-by-step troubleshooting guides
+- incident simulation and evidence capture
+- deeper Samba permission testing
+- documenting the live Samba configuration in more detail
+- backup automation after it is configured and tested
 
 ---
 
@@ -163,6 +119,4 @@ Planned future additions may include:
 
 The **Junior IT Support Home Lab** is a practical project focused on real setup and verification rather than theory alone.
 
-It shows the ability to build a small but functional support environment and forms a strong foundation for further expansion into more advanced IT support scenarios.
-
----
+It already demonstrates a working small-office-style support environment and creates a solid base for future troubleshooting scenarios and support documentation.

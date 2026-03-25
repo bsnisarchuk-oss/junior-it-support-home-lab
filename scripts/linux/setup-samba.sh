@@ -1,10 +1,11 @@
 #!/bin/bash
-# setup-samba.sh — Install and configure Samba shared folder
+# setup-samba.sh - Install and configure a Samba shared folder
 
 set -e
 
-SHARE_DIR="/srv/shared"
-SHARE_NAME="Shared"
+# Template defaults only. Review before using in the live lab.
+SHARE_DIR="${SHARE_DIR:-/srv/shared}"
+SHARE_NAME="${SHARE_NAME:-companydocs}"
 
 echo "[INFO] Installing Samba..."
 apt-get update -y

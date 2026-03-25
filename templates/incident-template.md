@@ -1,37 +1,70 @@
-# Incident XX — [Short Title]
+# Incident XX - [Short Title]
 
-## Details
+**Type:** planned simulation or completed lab incident  
+**Status:** planned / in progress / resolved
 
-| Field       | Value                        |
-|-------------|------------------------------|
-| Date        |                              |
-| Reporter    |                              |
-| Affected    |                              |
-| Priority    | Low / Medium / High / Critical |
-| Status      | Open / In Progress / Resolved |
+---
 
-## Description
+## Incident Details
 
-_Describe the problem reported by the user._
+| Field | Value |
+|-------|-------|
+| Incident ID | `INC-XXX` |
+| Date | |
+| Reported by | |
+| Affected system | |
+| Priority | Low / Medium / High / Critical |
+| Current repo state | Scenario prepared / In progress / Completed with evidence |
 
-## Investigation Steps
+---
 
-1.
-2.
-3.
+## Symptoms
+
+_Describe what the user or technician observed._
+
+---
+
+## Troubleshooting Steps
+
+1. 
+2. 
+3. 
+
+---
 
 ## Root Cause
 
-_What caused the issue?_
+_Record the actual cause after investigation._
 
-## Resolution
+---
 
-_Steps taken to resolve the issue._
+## Fix Applied
 
-## Prevention
+_List the real steps taken to resolve the issue._
 
-_What can be done to prevent recurrence?_
+---
 
-## Time to Resolve
+## Validation After Fix
 
-_How long did it take from report to resolution?_
+_Explain how the fix was confirmed._
+
+Examples:
+
+- service started successfully
+- user could access the share again
+- ping test succeeded
+- installer completed successfully
+
+---
+
+## Related Screenshots
+
+- [ ] `screenshots/incidents/example-01.png`
+- [ ] `screenshots/incidents/example-02.png`
+
+---
+
+## Notes
+
+- keep expected results separate from actual findings if the incident has not been run yet
+- do not mark the incident as resolved until the lab work and validation are complete

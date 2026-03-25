@@ -1,7 +1,7 @@
-# Incident 01 — No Internet Access on Workstation
+# Incident 01 - No Internet Access on Workstation
 
-> **Type:** Lab simulation — this incident is reproduced intentionally to practice troubleshooting.
-> **⚙️ Status:** Scenario defined — must be reproduced and resolved manually in the lab.
+**Type:** planned lab simulation for future troubleshooting practice  
+**Status:** not yet reproduced in the live lab
 
 ---
 
@@ -9,156 +9,101 @@
 
 | Field | Value |
 |-------|-------|
-| Incident ID | INC-001 |
-| Date reported | _(fill in during lab session)_ |
-| Reported by | labuser (win-workstation-01) |
-| Affected device | WIN-WS-01 (192.168.1.20) |
+| Incident ID | `INC-001` |
+| Reported by | user on `office-pc-01` |
+| Affected device | `office-pc-01` (`192.168.56.102`) |
 | Priority | Medium |
-| Status | ⚙️ To be completed in lab |
+| Current repo state | Scenario prepared, evidence not captured yet |
 
 ---
 
 ## Description
 
-User reports that web browsing stopped working. They cannot open any websites.
-The computer appears to be on the network (the network icon in the taskbar shows connected).
+The workstation loses internet access even though the lab server may still be reachable on the host-only network.
+
+This incident fits the current lab design because:
+
+- `office-pc-01` uses a NAT adapter for internet access
+- `office-pc-01` uses a host-only adapter to reach `office-srv-01`
+
+That means the workstation can lose internet access while still being able to talk to the lab server.
 
 ---
 
-## How to Reproduce This Incident in the Lab
+## Planned Reproduction
 
-> ⚙️ **Do this to intentionally break internet access:**
+Choose one method when you are ready to perform the simulation:
 
-On WIN-WS-01 (run PowerShell as Administrator):
-```powershell
-# Remove the default gateway to simulate misconfigured network settings
-$adapter = Get-NetAdapter | Where-Object {$_.Status -eq "Up"} | Select-Object -First 1
-Remove-NetRoute -InterfaceAlias $adapter.Name -DestinationPrefix "0.0.0.0/0" -Confirm:$false
-```
+### Method A - Disable the NAT-side adapter
 
-Or manually: Settings → Network → Ethernet → Edit IP → remove the Gateway field and save.
+- disable the adapter that currently provides internet access on `office-pc-01`
+- leave the host-only adapter enabled so the workstation can still reach `192.168.56.101`
+
+### Method B - Break DNS on the internet-side adapter
+
+- change the DNS settings on the internet-facing adapter to an invalid value
+- keep the host-only adapter untouched
 
 ---
 
 ## Investigation Steps
 
-> Work through these steps in order. Stop when the root cause is found.
+Run these on `office-pc-01`:
 
-### Step 1 — Can the user reach a specific website?
-
-```cmd
-ping google.com
-ping 8.8.8.8
-```
-
-Expected (broken state):
-- `ping google.com` → "Ping request could not find host" (DNS failure) OR "Request timed out"
-- `ping 8.8.8.8` → "Request timed out" or "Destination unreachable"
-
-**Interpretation:**
-- If `8.8.8.8` fails but the local network works → routing/gateway issue
-- If `8.8.8.8` works but `google.com` fails → DNS issue
-
-### Step 2 — Check IP configuration
-
-```cmd
+```powershell
 ipconfig /all
-```
-
-Look for:
-- IP address: should be `192.168.1.20`
-- Subnet mask: should be `255.255.255.0`
-- Default gateway: should be `192.168.1.1`
-- DNS: should be `8.8.8.8`
-
-**Common findings:**
-- Default gateway is empty or wrong → gateway misconfiguration
-- IP is `169.254.x.x` (APIPA) → DHCP not working, no static IP set
-- DNS is empty or wrong → DNS misconfiguration
-
-### Step 3 — Test layer by layer
-
-```cmd
-REM Can we reach the local network?
-ping 192.168.1.10
-
-REM Can we reach the gateway?
-ping 192.168.1.1
-
-REM Can we reach the internet by IP?
+route print
+ping 192.168.56.101
 ping 8.8.8.8
-
-REM Can we resolve DNS?
 nslookup google.com
 ```
 
----
+Interpretation:
 
-## Root Cause
-
-> ⚙️ Fill in after completing the lab investigation.
-
-**Expected root cause for this simulation:** Default gateway was removed from the network adapter settings. Without a gateway, the workstation cannot route traffic to any network outside its own subnet (192.168.1.0/24), so all internet traffic fails.
-
-_Actual finding during lab:_
-```
-[fill in]
-```
+- if `192.168.56.101` works but `8.8.8.8` fails, focus on the NAT-side adapter or default route
+- if `8.8.8.8` works but `google.com` fails, focus on DNS
+- if neither the server nor the internet responds, check both adapters and the VM state
 
 ---
 
-## Resolution
+## Expected Root Cause
 
-> ⚙️ Fill in after completing the lab resolution.
+Record the real finding after the live test.
 
-**Expected resolution:** Restore the default gateway in the network adapter settings.
+Possible expected outcomes:
 
-**Manual fix:**
-1. Settings → Network & Internet → Ethernet → Edit
-2. Set Gateway back to `192.168.1.1`
-3. Save and test
+- the NAT-side adapter was disabled or disconnected
+- the internet-side adapter had invalid DNS settings
 
-**PowerShell fix (as Administrator):**
-```powershell
-$adapter = Get-NetAdapter | Where-Object {$_.Status -eq "Up"} | Select-Object -First 1
-New-NetRoute -InterfaceAlias $adapter.Name -DestinationPrefix "0.0.0.0/0" -NextHop "192.168.1.1"
-```
+---
 
-After fix, verify:
+## Expected Resolution
+
+When you run this incident for real, resolve it by restoring the broken internet-side setting:
+
+- re-enable the NAT-side adapter, or
+- restore working DNS settings on the internet-side adapter
+
+After the fix, verify:
+
 ```cmd
 ping 8.8.8.8
 ping google.com
-```
-
-_Actual steps taken during lab:_
-```
-[fill in]
+ping 192.168.56.101
 ```
 
 ---
 
-## Screenshots to Take
+## Screenshots to Capture Later
 
-- [ ] `screenshots/incidents/inc-001-ipconfig-broken.png` — ipconfig showing missing gateway
-- [ ] `screenshots/incidents/inc-001-ping-failed.png` — ping 8.8.8.8 failing
-- [ ] `screenshots/incidents/inc-001-resolved.png` — ping google.com successful after fix
+- [ ] `screenshots/incidents/inc-001-ipconfig-broken.png`
+- [ ] `screenshots/incidents/inc-001-internet-failed.png`
+- [ ] `screenshots/incidents/inc-001-resolved.png`
 
 ---
 
 ## Prevention
 
-For a real environment:
-- Use DHCP with DHCP reservations so workstations always get the correct IP, gateway, and DNS automatically
-- Avoid manual static IP configuration on end-user machines unless necessary
-- Document any manually configured IPs in the inventory
-
----
-
-## Time to Resolve
-
-| Stage | Time |
-|-------|------|
-| Time reported → first investigation | _(fill in)_ |
-| First investigation → root cause identified | _(fill in)_ |
-| Root cause → resolved | _(fill in)_ |
-| **Total** | _(fill in)_ |
+- avoid changing adapter settings without recording what changed
+- keep the adapter roles clear: NAT for internet, Host-only for internal lab traffic
+- document working network settings before reproducing the incident

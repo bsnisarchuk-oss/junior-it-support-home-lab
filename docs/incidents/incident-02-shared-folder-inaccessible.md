@@ -1,7 +1,7 @@
-# Incident 02 — Shared Folder Inaccessible
+# Incident 02 - Shared Folder Inaccessible
 
-> **Type:** Lab simulation — this incident is reproduced intentionally to practice troubleshooting.
-> **⚙️ Status:** Scenario defined — must be reproduced and resolved manually in the lab.
+**Type:** planned lab simulation for future troubleshooting practice  
+**Status:** not yet reproduced in the live lab
 
 ---
 
@@ -9,179 +9,122 @@
 
 | Field | Value |
 |-------|-------|
-| Incident ID | INC-002 |
-| Date reported | _(fill in during lab session)_ |
-| Reported by | labuser (win-workstation-01 and win-workstation-02) |
-| Affected device | Both workstations — cannot access `\\192.168.1.10\Shared` |
-| Priority | High — affects all users |
-| Status | ⚙️ To be completed in lab |
+| Incident ID | `INC-002` |
+| Reported by | user on `office-pc-01` |
+| Affected device | `office-pc-01` cannot access `\\192.168.56.101\companydocs` |
+| Priority | High |
+| Current repo state | Scenario prepared, evidence not captured yet |
 
 ---
 
 ## Description
 
-Both users report that the mapped network drive (Z:) is showing as disconnected.
-When they try to open it, they get: **"Network path not found"** or **"Windows cannot access \\192.168.1.10\Shared"**.
-The issue appeared suddenly — the share was working yesterday.
+The Windows workstation can no longer open the `companydocs` share on `office-srv-01`.
+
+Typical user symptom:
+
+- File Explorer cannot open `\\192.168.56.101\companydocs`
+- Windows reports that the network path cannot be found or that the share is unavailable
 
 ---
 
-## How to Reproduce This Incident in the Lab
+## Planned Reproduction
 
-> ⚙️ **Choose one of the methods below to break the share:**
+Choose one method when you are ready to perform the simulation:
 
-**Method A — Stop the Samba service (most common real-world scenario):**
+### Method A - Stop Samba
+
 ```bash
-# On the Ubuntu Server
 sudo systemctl stop smbd
 ```
 
-**Method B — Block Samba in the firewall:**
-```bash
-# On the Ubuntu Server
-sudo ufw deny samba
-```
+### Method B - Break the Samba config
 
-**Method C — Misconfigure smb.conf:**
 ```bash
-# On the Ubuntu Server — add an invalid line to break config
 echo "invalid_option = yes" | sudo tee -a /etc/samba/smb.conf
 sudo systemctl restart smbd
 ```
+
+### Method C - Change firewall state after UFW is actually configured
+
+Only use this method later if firewall rules have been implemented and tested in the live lab.
 
 ---
 
 ## Investigation Steps
 
-### Step 1 — Can the workstation reach the server at all?
-
-> Run on WIN-WS-01:
-```cmd
-ping 192.168.1.10
-```
-
-- If ping fails → network connectivity issue (check VM network, check if server is running)
-- If ping succeeds → server is reachable, problem is specific to Samba
-
-### Step 2 — Is the SMB port open?
+### On `office-pc-01`
 
 ```powershell
-Test-NetConnection -ComputerName 192.168.1.10 -Port 445
+ping 192.168.56.101
+Test-NetConnection -ComputerName 192.168.56.101 -Port 445
 ```
 
-Expected (working): `TcpTestSucceeded: True`
-Expected (broken): `TcpTestSucceeded: False` — Samba is not listening or is blocked
+Then try to open:
 
-### Step 3 — Check Samba service on the server
+```text
+\\192.168.56.101\companydocs
+```
 
-> Run on the Ubuntu Server (via SSH):
+### On `office-srv-01`
+
 ```bash
 sudo systemctl status smbd
-```
-
-Look for:
-- `active (running)` → service is up, problem is elsewhere (config, firewall, permissions)
-- `inactive (dead)` or `failed` → service is not running → start it
-
-```bash
-# If service is stopped:
-sudo systemctl start smbd
-```
-
-### Step 4 — Check UFW firewall
-
-```bash
-sudo ufw status
-```
-
-Check if Samba is listed as ALLOW. If it shows DENY or is missing:
-```bash
-sudo ufw allow samba
-```
-
-### Step 5 — Check Samba configuration
-
-```bash
 testparm
-```
-
-- `Loaded services file OK` → config is valid
-- Any error output → there is a syntax error in smb.conf — review and fix
-
-### Step 6 — Check Samba logs
-
-```bash
 sudo tail -30 /var/log/samba/log.smbd
 ```
 
-Look for error messages that indicate the reason for failure.
+Interpretation:
+
+- if ping fails, start with host-only networking
+- if ping works but port 445 is closed, focus on Samba service state
+- if `testparm` fails, fix the Samba config before restarting the service
 
 ---
 
-## Root Cause
+## Expected Root Cause
 
-> ⚙️ Fill in after completing the lab investigation.
+Record the real finding after the live test.
 
-**Expected root cause (Method A):** Samba service (`smbd`) was stopped. This immediately makes all shares inaccessible, even though the server is reachable by ping. Port 445 is not listening when smbd is not running.
+Most likely causes for this lab:
 
-_Actual finding during lab:_
-```
-[fill in]
-```
+- `smbd` was stopped
+- the Samba config became invalid
+- firewall rules blocked SMB after firewall hardening is added
 
 ---
 
-## Resolution
+## Expected Resolution
 
-> ⚙️ Fill in after completing the lab resolution.
+Typical fixes:
 
-**Expected resolution (Method A):**
 ```bash
-# Start Samba
 sudo systemctl start smbd
-
-# Confirm it's running
 sudo systemctl status smbd
-
-# Enable auto-start on boot (prevent recurrence)
-sudo systemctl enable smbd
+testparm
 ```
 
-Then from Windows, reconnect the mapped drive:
+After the server-side fix, re-test from Windows:
+
 ```powershell
-net use Z: \\192.168.1.10\Shared
+Test-NetConnection -ComputerName 192.168.56.101 -Port 445
 ```
-Or disconnect and remap through File Explorer.
 
-_Actual steps taken during lab:_
-```
-[fill in]
-```
+Then open `\\192.168.56.101\companydocs` again in File Explorer.
 
 ---
 
-## Screenshots to Take
+## Screenshots to Capture Later
 
-- [ ] `screenshots/incidents/inc-002-drive-error.png` — Windows error when accessing Z: drive
-- [ ] `screenshots/incidents/inc-002-port-check.png` — Test-NetConnection showing port 445 closed
-- [ ] `screenshots/incidents/inc-002-smbd-stopped.png` — systemctl status smbd showing stopped
-- [ ] `screenshots/incidents/inc-002-resolved.png` — Z: drive accessible after fix
+- [ ] `screenshots/incidents/inc-002-drive-error.png`
+- [ ] `screenshots/incidents/inc-002-port-check.png`
+- [ ] `screenshots/incidents/inc-002-smbd-status.png`
+- [ ] `screenshots/incidents/inc-002-resolved.png`
 
 ---
 
 ## Prevention
 
-- Enable Samba to start automatically on boot: `sudo systemctl enable smbd`
-- Monitor server uptime
-- In a real environment: set up alerting for service failures (e.g., Nagios, Zabbix, or a simple cron health check)
-
----
-
-## Time to Resolve
-
-| Stage | Time |
-|-------|------|
-| Time reported → first investigation | _(fill in)_ |
-| First investigation → root cause identified | _(fill in)_ |
-| Root cause → resolved | _(fill in)_ |
-| **Total** | _(fill in)_ |
+- keep a known-good copy of the Samba config before editing it
+- verify `smbd` after changes with `systemctl status smbd`
+- validate config changes with `testparm`

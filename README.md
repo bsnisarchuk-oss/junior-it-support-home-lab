@@ -1,17 +1,15 @@
 # Junior IT Support Home Lab
 
-A practical home lab project built to simulate a small office IT environment and demonstrate core junior IT support skills.
+A practical home lab project built to simulate a small office IT environment and document core junior IT support work.
 
 ---
 
 ## Project Goal
 
-This lab was created to practice and document real hands-on IT support tasks in a controlled environment using virtual machines.
-
-The goal is to show practical ability in areas such as:
+This repository documents a real two-VM lab built in VirtualBox. The goal is to show hands-on ability in areas such as:
 
 - virtual machine deployment
-- network setup in VirtualBox
+- VirtualBox networking
 - basic Linux administration
 - SSH remote access
 - Samba file sharing
@@ -20,134 +18,112 @@ The goal is to show practical ability in areas such as:
 
 ---
 
-## Lab Environment
+## Current Real Lab
 
-### Virtual Machines
+### Ubuntu Server VM
 
-#### Ubuntu Server
 - **Hostname:** `office-srv-01`
 - **Role:** File server
 - **OS:** Ubuntu Server
 - **IP Address:** `192.168.56.101`
 
-#### Windows Workstation
+### Windows Workstation VM
+
 - **Hostname:** `office-pc-01`
 - **Role:** Client workstation
 - **OS:** Windows 10
 - **IP Address:** `192.168.56.102`
 
----
+### VirtualBox Networking
 
-## Network Configuration
+- **Adapter 1:** NAT
+- **Adapter 2:** Host-only
 
-The lab uses two VirtualBox adapters on both VMs:
-
-### Adapter 1 — NAT
-Used for:
-- internet access
-- updates
-- package installation
-
-### Adapter 2 — Host-only
-Used for:
-- internal communication between lab machines
-- testing local office-style networking
-
-### Current IP Addresses
-- `office-srv-01` → `192.168.56.101`
-- `office-pc-01` → `192.168.56.102`
+This setup provides outbound internet access through NAT and private VM-to-VM communication through the host-only network.
 
 ---
 
-## Services Configured
+## Services Verified
 
-### SSH
-SSH is enabled on the Ubuntu server and working correctly.
+- SSH is enabled and working on `office-srv-01`
+- Samba is configured and working on `office-srv-01`
+- The Windows workstation can open `\\192.168.56.101\companydocs`
+- A file named `windows-test.txt` was created from Windows inside the shared folder
 
-This allows:
-- remote administration
-- secure terminal access
-- practice with server management
-
-### Samba
-Samba is configured on the Ubuntu server to provide a shared folder for the Windows workstation.
-
-- **Share Name:** `companydocs`
-- **Path from Windows:** `\\192.168.56.101\companydocs`
-
----
-
-## Validation Completed
-
-The following tasks have been completed and verified:
-
-- Ubuntu Server VM created
-- Windows 10 VM created
-- NAT + Host-only networking configured
-- Internal IP connectivity established
-- SSH enabled and working on Ubuntu
-- Samba installed and configured
-- Windows can access the shared folder
-- A file named `windows-test.txt` was created from Windows inside the shared share
-
-This confirms that the core lab environment is functioning correctly.
+These checks confirm that the current lab is working.
 
 ---
 
 ## Skills Demonstrated
 
-This project demonstrates practical beginner-level IT support skills, including:
-
 - VirtualBox VM setup
-- internal network configuration
+- internal network verification
 - IP-based connectivity testing
-- Linux server setup
-- SSH access and verification
-- Samba share configuration
-- Windows access to Linux-hosted shares
-- basic validation of shared folder functionality
+- Ubuntu Server administration
+- SSH validation
+- Samba share validation
+- Windows access to Linux-hosted file shares
+- clear technical documentation
 
 ---
 
 ## Repository Structure
 
 ```text
-Junior-IT-Support-Home-Lab/
-├── README.md
-├── PROJECT_OVERVIEW.md
-├── LAB_SETUP.md
-├── screenshots/
-│   ├── server/
-│   ├── workstation/
-│   ├── network/
-│   └── incidents/
-└── docs/
+junior-it-support-home-lab/
+|-- README.md
+|-- PROJECT_OVERVIEW.md
+|-- LAB_SETUP.md
+|-- PROGRESS.md
+|-- REQUIREMENTS.md
+|-- NETWORK_DIAGRAM.md
+|-- docs/
+|   |-- incidents/
+|   |-- inventory/
+|   |-- network/
+|   |-- server/
+|   `-- workstation/
+|-- screenshots/
+|   |-- incidents/
+|   |-- server/
+|   `-- workstation/
+|-- scripts/
+|   |-- linux/
+|   `-- windows/
+`-- templates/
+```
 
-Current Project Status
-Completed
-•	Core lab deployment 
-•	Network setup 
-•	SSH configuration 
-•	Samba file sharing 
-•	Windows access test 
-•	Initial documentation 
+---
 
-Planned Next Steps
-•	add screenshots for each setup stage 
-•	document Samba configuration in more detail 
-•	test permissions more deeply 
-•	simulate common IT support issues 
-•	add troubleshooting examples and incident notes 
+## Current Status
 
-Why This Project Matters
-This lab is designed as a portfolio project for junior IT support roles.
-It shows the ability to:
-•	build a working lab from scratch 
-•	configure systems across Windows and Linux 
-•	verify services and connectivity 
-•	document technical work clearly
+Completed and verified:
 
-Notes
+- Ubuntu Server VM deployed
+- Windows 10 VM deployed
+- NAT and Host-only networking in place
+- Host-only connectivity working between the VMs
+- SSH working on the server
+- Samba working on the server
+- Windows access to `\\192.168.56.101\companydocs`
+- initial screenshot evidence captured
 
-This project focuses on practical fundamentals rather than advanced enterprise tooling.
-The aim is to build strong entry-level support skills through real setup, testing, and documentation.
+Planned next steps:
+
+- reproduce incident scenarios and capture evidence in `screenshots/incidents/`
+- document the live Samba configuration in more detail
+- test permissions more deeply
+- document backup automation after it is configured on the live server
+
+---
+
+## Why This Project Matters
+
+This lab is designed as a portfolio project for junior IT support roles. It demonstrates the ability to:
+
+- build a working lab from scratch
+- work across Windows and Linux
+- verify services and connectivity
+- document real technical work clearly
+
+The focus is practical fundamentals rather than enterprise-scale tooling.

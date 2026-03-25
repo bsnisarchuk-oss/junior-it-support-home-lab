@@ -1,177 +1,72 @@
-# Samba Shared Folder Setup
+# Samba Share Reference
 
-> **Status:** Guide written — ⚙️ must be completed manually on the Ubuntu Server.
-> **Prerequisite:** Ubuntu Server is installed and accessible via SSH (see `ubuntu-server-setup.md`).
+**Status:** the Samba service is working in the current live lab.
 
----
-
-## Overview
-
-Samba allows Windows machines to access shared folders on a Linux server
-using the standard SMB/CIFS protocol — the same protocol used by Windows network shares.
-
-The shared folder will be accessible at: `\\192.168.1.10\Shared`
+This file records the share as it is validated today. It does not assume any extra permissions work, mapped drive letters, or undocumented server-side paths.
 
 ---
 
-## 1. Install Samba
+## Current Verified Share
 
-> ⚙️ **Run on the server via SSH.**
-
-```bash
-sudo apt update
-sudo apt install samba -y
-```
-
-Verify installation:
-```bash
-samba --version
-```
+| Item | Value |
+|------|-------|
+| Server hostname | `office-srv-01` |
+| Server IP | `192.168.56.101` |
+| Windows client | `office-pc-01` |
+| Share name | `companydocs` |
+| Windows path | `\\192.168.56.101\companydocs` |
+| Validation evidence | `windows-test.txt` was created from Windows in the share |
 
 ---
 
-## 2. Create the Shared Directory Structure
+## Validation Commands
 
-You can run the provided script or do it manually.
+### On the Ubuntu Server
 
-**Option A — Run the script:**
 ```bash
-sudo bash /path/to/scripts/linux/create-shared-structure.sh
-```
-
-**Option B — Manual:**
-```bash
-sudo mkdir -p /srv/shared
-sudo mkdir -p /srv/shared/Documents
-sudo mkdir -p /srv/shared/IT/Drivers
-sudo mkdir -p /srv/shared/IT/Software
-sudo mkdir -p /srv/shared/HR
-sudo mkdir -p /srv/shared/Public
-
-sudo chown -R nobody:nogroup /srv/shared
-sudo chmod -R 0775 /srv/shared
-```
-
-Verify:
-```bash
-ls -la /srv/shared
-```
-
----
-
-## 3. Configure Samba
-
-Back up the original config file:
-```bash
-sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
-```
-
-Open the config file:
-```bash
-sudo nano /etc/samba/smb.conf
-```
-
-Add the following block at the **end** of the file:
-```ini
-[Shared]
-   path = /srv/shared
-   comment = Company Shared Folder
-   browseable = yes
-   read only = no
-   guest ok = yes
-   create mask = 0664
-   directory mask = 0775
-   force user = nobody
-```
-
-Test the configuration for syntax errors:
-```bash
+sudo systemctl status smbd
 testparm
 ```
 
-Expected output: `Loaded services file OK.`
+### On the Windows Workstation
 
----
-
-## 4. Open Firewall for Samba
-
-> ⚙️ **Run on the server.**
-
-```bash
-sudo ufw allow samba
-sudo ufw status
+```powershell
+Test-NetConnection -ComputerName 192.168.56.101 -Port 445
 ```
 
-Expected output should include:
-```
-Samba                      ALLOW       Anywhere
+Then open the share in File Explorer:
+
+```text
+\\192.168.56.101\companydocs
 ```
 
 ---
 
-## 5. Restart and Enable Samba
+## Expected Results
 
-```bash
-sudo systemctl restart smbd
-sudo systemctl enable smbd
-```
-
-Check status:
-```bash
-sudo systemctl status smbd
-```
-
-Expected: `active (running)`
-
-**⚙️ Screenshot to take:** `systemctl status smbd` showing active → `screenshots/server/samba-status.png`
+- `smbd` is active
+- `testparm` reports a valid configuration
+- port 445 is reachable from `office-pc-01`
+- the share opens from Windows
+- the existing validation history shows that `windows-test.txt` was created from Windows inside the shared folder
 
 ---
 
-## 6. Access the Share from Windows
+## Documentation Gap to Fill Later
 
-> ⚙️ **Complete manually on win-workstation-01.**
+The repository currently documents the **Windows-visible** share path, which is already verified.
 
-**Method 1 — Run dialog:**
-Press `Win + R`, type:
-```
-\\192.168.1.10\Shared
-```
-
-**Method 2 — Map as Network Drive:**
-1. Open File Explorer
-2. Right-click "This PC" → "Map network drive..."
-3. Drive letter: `Z:`
-4. Folder: `\\192.168.1.10\Shared`
-5. Check "Reconnect at sign-in"
-6. Click Finish
-
-You should see the shared folders: `Documents`, `HR`, `IT`, `Public`.
-
-**⚙️ Screenshot to take:** Mapped drive `Z:` open in File Explorer → `screenshots/workstation/network-drive-mapped.png`
+The exact **server-side filesystem path** for the live `companydocs` share should be captured directly from the current server configuration in a later documentation pass. It is intentionally not guessed here.
 
 ---
 
-## 7. Verification Checklist
+## Quick Troubleshooting
 
-| Check | How to Verify | Expected Result | ⚙️ Result |
-|-------|--------------|-----------------|----------|
-| Samba installed | `samba --version` | Version printed | |
-| Share directory exists | `ls /srv/shared` | Folders visible | |
-| Config valid | `testparm` | `Loaded services file OK` | |
-| Samba running | `systemctl status smbd` | `active (running)` | |
-| Port 445 open | From Windows: `Test-NetConnection -ComputerName 192.168.1.10 -Port 445` | `TcpTestSucceeded: True` | |
-| Share accessible from Windows | Browse `\\192.168.1.10\Shared` | Folders visible | |
-
----
-
-## Troubleshooting
-
-| Problem | Check | Fix |
-|---------|-------|-----|
-| Cannot reach server at all | `ping 192.168.1.10` from Windows | Check VM network adapter |
-| Port 445 blocked | `sudo ufw status` | `sudo ufw allow samba` |
-| Samba not running | `sudo systemctl status smbd` | `sudo systemctl start smbd` |
-| Config error | `testparm` | Fix syntax in smb.conf, restart smbd |
-| Permission denied | `ls -la /srv/shared` | Check ownership and chmod |
+| Problem | Check | Fix Direction |
+|---------|-------|---------------|
+| Cannot reach the server | `ping 192.168.56.101` from Windows | Check host-only networking |
+| Port 445 closed | `Test-NetConnection -ComputerName 192.168.56.101 -Port 445` | Check Samba and firewall state |
+| Samba not running | `sudo systemctl status smbd` | Start `smbd` and review logs |
+| Config error | `testparm` | Fix the Samba config before restarting |
 
 See also: `docs/incidents/incident-02-shared-folder-inaccessible.md`

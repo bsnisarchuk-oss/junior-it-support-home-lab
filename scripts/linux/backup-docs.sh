@@ -1,9 +1,10 @@
 #!/bin/bash
-# backup-docs.sh — Daily backup of shared folder with 7-day retention
+# backup-docs.sh - Daily backup of shared folder with 7-day retention
 
 set -e
 
-SOURCE_DIR="/srv/shared"
+# Template default only. Update to the live server-side path for companydocs before use.
+SOURCE_DIR="${SOURCE_DIR:-/srv/shared}"
 BACKUP_BASE="/srv/backups"
 DATE=$(date +%Y-%m-%d)
 BACKUP_DIR="$BACKUP_BASE/$DATE"
