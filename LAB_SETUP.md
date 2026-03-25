@@ -1,103 +1,182 @@
-# Lab Setup
+# LAB_SETUP.md
 
-> **Note:** This file describes the planned lab configuration.
-> Actual installation steps are in `docs/server/ubuntu-server-setup.md` and `docs/workstation/new-workstation-setup.md`.
-> Steps marked with ⚙️ must be completed manually.
+## Junior IT Support Home Lab
+
+This document describes the current lab environment, completed setup steps, and the verified working state of the project.
 
 ---
 
-## Hypervisor
+## Lab Overview
 
-| Setting | Value |
-|---------|-------|
-| Software | VirtualBox 7.x (free) or VMware Workstation Pro |
-| Host OS | Windows 11 |
-| Network Mode | Host-only Adapter or Internal Network |
-| Network Name | `LabNetwork` |
+The lab simulates a small office environment with:
 
-**⚙️ To do manually:** Install hypervisor, create a Host-only network with range `192.168.1.0/24`, DHCP disabled.
+- **Ubuntu Server VM** acting as a file server
+- **Windows 10 VM** acting as a workstation
+- **VirtualBox networking** configured to allow both internet access and internal lab communication
+- **SSH** enabled on the server for remote administration
+- **Samba** configured to provide a shared folder accessible from Windows
 
 ---
 
 ## Virtual Machines
 
-### ubuntu-server
+### 1. Ubuntu Server
+- **Hostname:** `office-srv-01`
+- **Role:** File server / administration target
+- **Operating System:** Ubuntu Server
+- **IP Address:** `192.168.56.101`
 
-| Setting | Value |
-|---------|-------|
-| OS | Ubuntu Server 22.04 LTS |
-| Role | File server, backup server |
-| Hostname | `ubuntu-server` |
-| IP | 192.168.1.10 (static) |
-| CPU | 2 vCPU |
-| RAM | 2 GB |
-| Disk | 20 GB (dynamically allocated) |
-| Network Adapter | Host-only / Internal |
-
-**⚙️ To do manually:** Create VM with above specs, attach Ubuntu Server 22.04 ISO, complete installation.
+### 2. Windows Workstation
+- **Hostname:** `office-pc-01`
+- **Role:** Client workstation
+- **Operating System:** Windows 10
+- **IP Address:** `192.168.56.102`
 
 ---
 
-### win-workstation-01
+## Network Configuration
 
-| Setting | Value |
-|---------|-------|
-| OS | Windows 11 Home / Pro |
-| Role | User workstation |
-| Hostname | `WIN-WS-01` |
-| IP | 192.168.1.20 (static) |
-| CPU | 2 vCPU |
-| RAM | 4 GB |
-| Disk | 40 GB (dynamically allocated) |
-| Network Adapter | Host-only / Internal |
+Both virtual machines use the following VirtualBox network setup:
 
-**⚙️ To do manually:** Create VM, install Windows 11, apply workstation setup guide.
+### Adapter 1: NAT
+Used for:
+- Internet access
+- Package installation
+- System updates
 
----
+### Adapter 2: Host-only Adapter
+Used for:
+- Communication between lab machines
+- Internal testing without relying on external network infrastructure
 
-### win-workstation-02
+### Current Lab IP Addresses
+- `office-srv-01` → `192.168.56.101`
+- `office-pc-01` → `192.168.56.102`
 
-| Setting | Value |
-|---------|-------|
-| OS | Windows 11 Home / Pro |
-| Role | User workstation |
-| Hostname | `WIN-WS-02` |
-| IP | 192.168.1.21 (static) |
-| CPU | 2 vCPU |
-| RAM | 4 GB |
-| Disk | 40 GB (dynamically allocated) |
-| Network Adapter | Host-only / Internal |
-
-**⚙️ To do manually:** Clone or repeat setup from win-workstation-01.
+This allows direct connectivity between the server and workstation inside the home lab.
 
 ---
 
-## Host Machine Requirements
+## Services Configured
 
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| CPU | 4 cores (with VT-x/AMD-V) | 6+ cores |
-| RAM | 12 GB | 16 GB |
-| Disk | 100 GB free | 150 GB free |
-| OS | Windows 10/11 | Windows 11 |
+### SSH on Ubuntu Server
+SSH has been enabled and verified on `office-srv-01`.
 
-**⚙️ To do manually:** Enable virtualization (VT-x/AMD-V) in BIOS before installing hypervisor.
+**Status:** Working
 
----
-
-## ISO Files Needed
-
-| File | Download Source |
-|------|----------------|
-| ubuntu-22.04-live-server-amd64.iso | ubuntu.com/download/server |
-| Windows 11 ISO | microsoft.com/software-download/windows11 |
-
-> Store ISOs locally — do not upload to this repository.
+Purpose:
+- Remote administration of the Ubuntu server
+- Basic IT support / sysadmin practice
+- Secure command-line access
 
 ---
 
-## Credentials Policy
+### Samba File Share
+Samba has been configured on `office-srv-01` to simulate a shared company folder.
 
-- Do not commit passwords or usernames to this repository.
-- Store lab credentials in a local password manager or a `credentials.txt` file excluded via `.gitignore`.
-- Use simple lab credentials (e.g., `admin` / `LabPass123!`) for virtual machines only.
+**Share name:** `companydocs`  
+**Network path:** `\\192.168.56.101\companydocs`
+
+**Status:** Working
+
+Purpose:
+- File sharing between Linux server and Windows workstation
+- Practice with network shares and permissions
+- Simulate a real office shared folder
+
+---
+
+## Validation Completed
+
+The following tests have already been completed successfully:
+
+### 1. Network Communication
+- Ubuntu Server and Windows 10 workstation are on the same host-only network
+- Both systems have assigned IP addresses in the `192.168.56.x` range
+
+### 2. SSH Access
+- SSH is enabled on Ubuntu
+- Remote access to the server is working
+
+### 3. Samba Access from Windows
+- The Windows workstation can access the shared folder:
+  - `\\192.168.56.101\companydocs`
+
+### 4. File Write Test from Windows
+- A test file was successfully created from Windows inside the shared folder:
+  - `windows-test.txt`
+
+This confirms:
+- Windows can reach the Samba share
+- Permissions are functioning correctly for basic file creation
+- The lab file-sharing setup is operational
+
+---
+
+## Current Lab State
+
+At this stage, the lab environment is functional and includes:
+
+- Ubuntu Server VM deployed and configured
+- Windows 10 VM deployed and configured
+- Dual VirtualBox networking in place:
+  - NAT
+  - Host-only
+- Internal IP addressing working correctly
+- SSH enabled on Ubuntu
+- Samba configured and accessible from Windows
+- Successful file creation test completed through the network share
+
+---
+
+## Shared Folder Details
+
+| Item | Value |
+|------|-------|
+| Server Hostname | `office-srv-01` |
+| Server IP | `192.168.56.101` |
+| Client Hostname | `office-pc-01` |
+| Client IP | `192.168.56.102` |
+| Share Name | `companydocs` |
+| Share Path | `\\192.168.56.101\companydocs` |
+| Test File Created | `windows-test.txt` |
+
+---
+
+## Practical Skills Demonstrated So Far
+
+This lab already demonstrates basic junior IT support skills in the following areas:
+
+- Virtual machine setup
+- Host-only and NAT networking in VirtualBox
+- Basic IP-based connectivity
+- Linux server administration
+- Enabling and using SSH
+- Configuring Samba shares
+- Accessing Linux-hosted shares from Windows
+- Basic file access validation across systems
+
+---
+
+## Next Possible Steps
+
+Suggested next improvements for the lab:
+
+1. Add screenshots for each completed step
+2. Document Samba configuration details
+3. Test folder permissions more deeply
+4. Add a second Windows user or permission scenario
+5. Simulate common IT support incidents:
+   - network issue
+   - share access denied
+   - incorrect IP configuration
+   - service down / restart test
+
+---
+
+## Status
+
+**Lab setup status:** Completed for the current phase  
+**Environment status:** Working and validated
+
+---
