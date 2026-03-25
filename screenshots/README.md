@@ -1,54 +1,77 @@
 # Screenshots
 
-This folder contains evidence screenshots taken during lab sessions.
+This folder contains validation evidence collected during hands-on lab work.
 
-> **Note:** Screenshots are not committed to the repository yet.
-> They will be added as each lab day is completed.
+All screenshots in this directory reflect real completed steps from the project.
+Nothing should be added here unless it was actually performed and verified in the lab.
+
+---
 
 ## Folder Structure
 
 | Folder | Contents |
 |--------|----------|
-| `server/` | Ubuntu Server setup, SSH sessions, service status, backup logs |
-| `workstation/` | Windows setup, software installed, mapped drives |
-| `network/` | IP configuration, ping tests, network diagnostics |
-| `incidents/` | Evidence for each incident (broken state + resolved state) |
+| `server/` | Ubuntu Server installation, SSH verification, Samba setup and validation |
+| `workstation/` | Windows workstation setup, network checks, access to Samba shared folder |
+| `network/` | Network-related screenshots and diagnostics |
+| `incidents/` | Evidence for simulated incident scenarios (broken state and resolved state) |
 
-## Naming Convention
+---
 
-Use descriptive filenames:
-```
-[area]-[description].png
+## Current Screenshot Naming Style
+
+Screenshots are named using ordered prefixes to reflect project progress.
 
 Examples:
-server/ssh-login.png
-server/samba-status.png
-workstation/network-drive-mapped.png
-incidents/inc-001-ipconfig-broken.png
-incidents/inc-001-resolved.png
-```
 
-## Expected Screenshots Per Day
+```text
+server/01-hostnamectl.png
+server/02-ip-a.png
+server/03-ping-c-4-8.8.8.8.png
+server/04-ping-c-4-google.com.png
+server/05-systemctl-status-ssh.png
+server/06-apt-update-upgrade.png
 
-### Day 2 — Ubuntu Server
-- `server/first-update.png`
-- `server/static-ip.png`
-- `server/ssh-login.png`
-- `server/ufw-status.png`
+server/07-companydocs-structure.png
+server/08-samba-config-block.png
+server/09-systemctl-status-smbd.png
+server/10-smbclient-localhost.png
 
-### Day 3 — Samba + Workstation
-- `server/samba-status.png`
-- `workstation/windows-updated.png`
-- `workstation/static-ip.png`
-- `workstation/software-installed.png`
-- `workstation/network-drive-mapped.png`
+workstation/13-windows-ipconfig.png
+workstation/14-ping-ubuntu-server.png
+workstation/15-companydocs-open-from-windows.png
+workstation/16-shared-folder-write-test.png
 
-### Day 4 — Backups
-- `server/backup-manual-run.png`
-- `server/backup-log.png`
+##Current Completed Screenshot Sets## 
 
-### Day 5 — Incidents
-- `incidents/inc-001-*.png`
-- `incidents/inc-002-*.png`
-- `incidents/inc-003-*.png`
-- `incidents/inc-004-*.png`
+Server
+
+Current server-side evidence should cover:
+
+Ubuntu hostname and OS details
+network interface information
+internet connectivity test
+DNS resolution test
+SSH service status
+package update / upgrade result
+Samba shared folder structure
+Samba configuration block
+Samba service status
+local Samba share validation with smbclient
+
+##Workstation##
+
+Current workstation-side evidence should cover:
+
+Windows IP configuration
+ping from Windows to Ubuntu server
+successful opening of \\192.168.56.101\companydocs
+successful write test inside Shared
+
+##Notes##
+
+Keep only clear and useful screenshots
+Prefer one screenshot per validation step
+Use real evidence only
+If a step was not completed, do not create placeholder screenshots
+Incident screenshots will be added later as troubleshooting scenarios are completed
