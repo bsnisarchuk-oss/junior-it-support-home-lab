@@ -54,6 +54,71 @@ These checks confirm that the current lab is working.
 
 ---
 
+## Incident 01 - Samba service outage
+
+### Summary
+
+A safe incident was simulated in which the Windows workstation lost access to the shared network folder hosted on the Ubuntu server.
+
+### Affected service
+
+Samba shared folder: `\\192.168.56.101\companydocs`
+
+### Lab devices
+
+- `office-srv-01` - Ubuntu Server
+- `office-pc-01` - Windows 10
+
+### Issue
+
+The Windows client could no longer open the shared folder and displayed a network access error.
+
+### Troubleshooting
+
+- Confirmed the share was working before the incident
+- Reproduced the issue from the Windows workstation
+- Verified network connectivity with `ping 192.168.56.101`
+- Confirmed the server was reachable
+- Checked the Samba service status on Ubuntu
+
+### Root cause
+
+The Samba service (`smbd`) was stopped on `office-srv-01`.
+
+### Resolution
+
+The issue was resolved by starting the Samba service again:
+
+```bash
+sudo systemctl start smbd
+sudo systemctl status smbd
+```
+
+### Outcome
+
+- `smbd` returned to `active (running)`
+- The Windows workstation regained access to `\\192.168.56.101\companydocs`
+
+### Evidence
+
+- `screenshots/incidents/01-before-incident-share-working.png`
+- `screenshots/incidents/02-smbd-stopped-on-server.png`
+- `screenshots/incidents/03-windows-cannot-open-share.png`
+- `screenshots/incidents/04-ping-server-success.png`
+- `screenshots/incidents/05-smbd-running-again.png`
+- `screenshots/incidents/06-share-restored-after-fix.png`
+
+### Skills demonstrated
+
+- Incident simulation
+- Windows troubleshooting
+- Network diagnostics
+- Linux service management
+- Root cause analysis
+- Service restoration
+
+---
+
 ## Skills Demonstrated
 
 - VirtualBox VM setup
@@ -107,11 +172,12 @@ Completed and verified:
 - SSH working on the server
 - Samba working on the server
 - Windows access to `\\192.168.56.101\companydocs`
+- Incident 01 documented with troubleshooting evidence
 - initial screenshot evidence captured
 
 Planned next steps:
 
-- reproduce incident scenarios and capture real troubleshooting evidence in `screenshots/incidents/`
+- document additional incident scenarios in `screenshots/incidents/`
 - document the live Samba configuration in more detail
 - test permissions more deeply
 - document backup automation after it is configured on the live server

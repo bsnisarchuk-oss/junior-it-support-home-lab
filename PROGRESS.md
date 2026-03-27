@@ -2,7 +2,7 @@
 
 This file tracks the real current state of the lab, what has already been completed, and what is still planned.
 
-**Last updated:** 2026-03-25
+**Last updated:** 2026-03-27
 
 ---
 
@@ -22,7 +22,49 @@ The following work is already done and verified:
 - Windows access verified to `\\192.168.56.101\companydocs`
 - `windows-test.txt` created from Windows inside the shared folder
 - current validation screenshots captured for the server and workstation
+- Incident 01 completed and documented with evidence
 - repository documentation aligned to the current real lab
+
+---
+
+## Day 5 - Incident 01: Samba service outage
+
+Today I completed the first safe incident simulation in the lab.
+
+### Incident
+
+The Windows workstation `office-pc-01` could not access the shared folder:
+
+`\\192.168.56.101\companydocs`
+
+### Troubleshooting steps
+
+- Confirmed the shared folder was working before the incident
+- Reproduced the issue on Windows
+- Verified connectivity with `ping 192.168.56.101`
+- Confirmed the server was reachable
+- Checked the Samba service status on Ubuntu
+
+### Root cause
+
+The Samba service (`smbd`) was stopped on `office-srv-01`.
+
+### Resolution
+
+Restarted the Samba service on the Ubuntu server and confirmed it returned to `active (running)`.
+
+### Result
+
+Access to `\\192.168.56.101\companydocs` was restored successfully.
+
+### Evidence
+
+- `screenshots/incidents/01-before-incident-share-working.png`
+- `screenshots/incidents/02-smbd-stopped-on-server.png`
+- `screenshots/incidents/03-windows-cannot-open-share.png`
+- `screenshots/incidents/04-ping-server-success.png`
+- `screenshots/incidents/05-smbd-running-again.png`
+- `screenshots/incidents/06-share-restored-after-fix.png`
 
 ---
 
@@ -50,6 +92,7 @@ This is the verified baseline for the project at the moment.
 
 - `screenshots/server/` contains current server-side validation evidence
 - `screenshots/workstation/` contains current workstation-side validation evidence
+- `screenshots/incidents/` contains Incident 01 troubleshooting and recovery evidence
 - the current evidence set covers hostname checks, IP checks, connectivity checks, SSH status, Samba status, share access, and the Windows file write test
 
 ---
@@ -59,7 +102,6 @@ This is the verified baseline for the project at the moment.
 The following work still needs to be done manually in the live lab:
 
 - reproduce incident scenarios and document the results
-- capture incident screenshots in `screenshots/incidents/`
 - document the live Samba server-side path directly from the running server
 - test Samba permissions more deeply
 - configure and verify backup automation on the live server
@@ -69,7 +111,7 @@ The following work still needs to be done manually in the live lab:
 
 ## Next Planned Step
 
-- reproduce the first real incident scenario and capture troubleshooting evidence in `screenshots/incidents/`
+- document the live Samba server-side path directly from the running server
 
 ---
 
