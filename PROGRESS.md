@@ -2,7 +2,7 @@
 
 This file tracks the real current state of the lab, what has already been completed, and what is still planned.
 
-**Last updated:** 2026-03-27
+**Last updated:** 2026-03-29
 
 ---
 
@@ -23,6 +23,7 @@ The following work is already done and verified:
 - `windows-test.txt` created from Windows inside the shared folder
 - current validation screenshots captured for the server and workstation
 - Incident 01 completed and documented with evidence
+- Incident 03 completed with shared-folder permissions troubleshooting
 - repository documentation aligned to the current real lab
 
 ---
@@ -65,6 +66,46 @@ Access to `\\192.168.56.101\companydocs` was restored successfully.
 - `screenshots/incidents/04-ping-server-success.png`
 - `screenshots/incidents/05-smbd-running-again.png`
 - `screenshots/incidents/06-share-restored-after-fix.png`
+
+---
+
+## Day 6 - Incident 03: Shared folder permissions issue
+
+Completed Incident 03 by simulating a write-permissions problem on the Samba shared folder.
+
+### What was tested
+
+- The shared folder remained reachable from Windows
+- Samba service stayed active and running
+- Existing files in the share were visible
+- New file creation failed because write permissions were removed from `/srv/companydocs/Shared`
+
+### Actions performed
+
+- Recorded the working baseline permissions for the shared folder
+- Removed write permissions from the Linux directory
+- Reproduced the issue from the Windows workstation
+- Confirmed that the share opened but file creation failed
+- Verified that `smbd` was still running
+- Checked the directory with `ls -ld` and `stat`
+- Restored permissions back to `0775`
+- Verified successful file creation after the fix
+
+### Outcome
+
+This incident demonstrated basic troubleshooting of file share permission issues by separating:
+
+- network connectivity
+- service availability
+- share configuration
+- underlying filesystem permissions
+
+### Evidence captured
+
+- broken directory permissions on Ubuntu
+- access denied error in Windows
+- restored permissions on Ubuntu
+- successful file creation after the fix
 
 ---
 

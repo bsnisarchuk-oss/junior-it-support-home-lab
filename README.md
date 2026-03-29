@@ -119,6 +119,52 @@ sudo systemctl status smbd
 
 ---
 
+## Incident 03 - Shared folder permissions issue
+
+A permissions issue was simulated on the Samba-backed shared folder `/srv/companydocs/Shared`.
+
+### Scenario
+
+- The network path `\\192.168.56.101\companydocs\Shared` remained reachable from the Windows workstation
+- Samba service (`smbd`) remained active and running
+- The user could open the shared folder and view existing files
+- However, write operations failed due to incorrect Linux permissions on the `Shared` directory
+
+### Symptoms observed
+
+- Windows could browse the share successfully
+- Creating a new file in `Shared` returned a permissions error
+- Server connectivity remained healthy
+- Samba service was not down
+
+### Root cause
+
+Incorrect Linux permissions were applied to `/srv/companydocs/Shared`, removing write access while keeping the share available over the network.
+
+### Diagnosis steps
+
+- Verified that `smbd` was active (`systemctl status smbd`)
+- Confirmed the shared folder path still existed
+- Checked directory permissions with `ls -ld /srv/companydocs/Shared`
+- Checked directory metadata with `stat /srv/companydocs/Shared`
+- Identified that permissions had changed from `0775` to `0555`
+
+### Fix applied
+
+Write permissions were restored on the shared folder using:
+
+```bash
+sudo chmod 0775 /srv/companydocs/Shared
+```
+
+### Result
+
+- Write access to `\\192.168.56.101\companydocs\Shared` was restored
+- A new file was successfully created from the Windows workstation
+- Baseline functionality was fully recovered
+
+---
+
 ## Skills Demonstrated
 
 - VirtualBox VM setup
