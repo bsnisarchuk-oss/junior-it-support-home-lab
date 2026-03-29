@@ -25,6 +25,7 @@ The following work is already done and verified:
 - Incident 01 completed and documented with evidence
 - Incident 02 completed with Samba share-name troubleshooting
 - Incident 03 completed with shared-folder permissions troubleshooting
+- Incident 04 completed with firewall-based SMB access troubleshooting
 - repository documentation aligned to the current real lab
 
 ---
@@ -61,12 +62,12 @@ Access to `\\192.168.56.101\companydocs` was restored successfully.
 
 ### Evidence
 
-- `screenshots/incidents/01-before-incident-share-working.png`
-- `screenshots/incidents/02-smbd-stopped-on-server.png`
-- `screenshots/incidents/03-windows-cannot-open-share.png`
-- `screenshots/incidents/04-ping-server-success.png`
-- `screenshots/incidents/05-smbd-running-again.png`
-- `screenshots/incidents/06-share-restored-after-fix.png`
+- `screenshots/incidents/incident_01/01-before-incident-share-working.png`
+- `screenshots/incidents/incident_01/02-smbd-stopped-on-server.png`
+- `screenshots/incidents/incident_01/03-windows-cannot-open-share.png`
+- `screenshots/incidents/incident_01/04-ping-server-success.png`
+- `screenshots/incidents/incident_01/05-smbd-running-again.png`
+- `screenshots/incidents/incident_01/06-share-restored-after-fix.png`
 
 ---
 
@@ -144,6 +145,92 @@ This incident demonstrated basic troubleshooting of file share permission issues
 - access denied error in Windows
 - restored permissions on Ubuntu
 - successful file creation after the fix
+
+---
+
+## Day 8 - Incident 04: Firewall blocks SMB access
+
+Completed Incident 04 as a safe and reversible Samba troubleshooting scenario.
+
+### Goal
+
+Simulate a case where:
+
+- Samba service is still running
+- the server is still reachable
+- but Windows cannot access the shared folder because SMB traffic is blocked by a firewall rule
+
+### Baseline checks
+
+Confirmed the lab was healthy before the change:
+
+- `smbd` was `active (running)`
+- port `445` was listening on Ubuntu
+- `\\192.168.56.101\companydocs` opened successfully from Windows
+- baseline share access was working normally
+
+### Fault simulation
+
+Added a temporary `iptables` rule on `office-srv-01`:
+
+```bash
+sudo iptables -I INPUT 1 -s 192.168.56.102 -p tcp --dport 445 -j DROP
+```
+
+This blocked SMB traffic from the Windows client (`office-pc-01`) to the Ubuntu server without stopping the Samba service.
+
+### Observed symptoms
+
+- Windows failed to open `\\192.168.56.101\companydocs`
+- A network access error was shown
+- `smbd` remained `active (running)` on Ubuntu
+- The issue was isolated to firewall filtering, not service failure
+
+### Recovery
+
+Removed the temporary firewall rule and re-tested share access:
+
+```bash
+sudo iptables -D INPUT -s 192.168.56.102 -p tcp --dport 445 -j DROP
+```
+
+Then verified:
+
+- The rule was no longer present in `iptables`
+- The share opened successfully again from Windows
+- Write access was restored
+- Created `incident04-restart.txt` in `\\192.168.56.101\companydocs\Shared`
+
+### Outcome
+
+The incident demonstrated that share access problems can be caused by firewall filtering even when:
+
+- the server is reachable
+- Samba is running
+- the share configuration itself has not changed
+
+This scenario helped reinforce the difference between:
+
+- service availability
+- share configuration
+- file permissions
+- network/firewall access control
+
+### Skills practiced
+
+- distinguishing network/firewall issues from service outages
+- checking Samba service state with `systemctl`
+- checking listening SMB port with `ss`
+- using `iptables` for safe incident simulation
+- validating recovery from the client side
+
+### Evidence captured
+
+- running Samba service during the failure
+- Windows network access error while opening `\\192.168.56.101\companydocs`
+- listening SMB port before the block
+- firewall rule removed during recovery
+- successful write test after recovery
 
 ---
 

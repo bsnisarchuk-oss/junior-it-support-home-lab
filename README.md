@@ -101,12 +101,12 @@ sudo systemctl status smbd
 
 ### Evidence
 
-- `screenshots/incidents/01-before-incident-share-working.png`
-- `screenshots/incidents/02-smbd-stopped-on-server.png`
-- `screenshots/incidents/03-windows-cannot-open-share.png`
-- `screenshots/incidents/04-ping-server-success.png`
-- `screenshots/incidents/05-smbd-running-again.png`
-- `screenshots/incidents/06-share-restored-after-fix.png`
+- `screenshots/incidents/incident_01/01-before-incident-share-working.png`
+- `screenshots/incidents/incident_01/02-smbd-stopped-on-server.png`
+- `screenshots/incidents/incident_01/03-windows-cannot-open-share.png`
+- `screenshots/incidents/incident_01/04-ping-server-success.png`
+- `screenshots/incidents/incident_01/05-smbd-running-again.png`
+- `screenshots/incidents/incident_01/06-share-restored-after-fix.png`
 
 ### Skills demonstrated
 
@@ -202,6 +202,61 @@ sudo chmod 0775 /srv/companydocs/Shared
 - Write access to `\\192.168.56.101\companydocs\Shared` was restored
 - A new file was successfully created from the Windows workstation
 - Baseline functionality was fully recovered
+
+---
+
+## Incident 04 - Firewall blocks SMB access
+
+This incident simulated a network-level access problem where the Samba service stayed healthy, but SMB traffic from the Windows client was blocked by a temporary firewall rule on the Ubuntu server.
+
+### Scenario
+
+- Ubuntu Server (`office-srv-01`) continued running normally
+- `smbd` remained `active (running)`
+- TCP port `445` was listening
+- Windows 10 client (`office-pc-01`) could still reach the server by network
+- Access to `\\192.168.56.101\companydocs` failed during the incident
+
+### Root cause
+
+A temporary `iptables` rule was added on the Ubuntu server to drop inbound TCP traffic on port `445` from the Windows client IP (`192.168.56.102`).
+
+### Troubleshooting logic
+
+- Verified Samba service status on Ubuntu
+- Verified SMB port `445` was listening before the incident
+- Confirmed the share opened normally before the change
+- Added a firewall rule blocking SMB traffic from the Windows VM
+- Reproduced the access failure from Windows
+- Confirmed `smbd` was still `active (running)` during the failure
+- Removed the firewall rule
+- Verified the share opened again
+- Confirmed write access was restored by creating `incident04-restart.txt` in `Shared`
+
+### Commands used
+
+```bash
+sudo systemctl status smbd --no-pager
+sudo ss -tulpn | grep :445
+sudo iptables -I INPUT 1 -s 192.168.56.102 -p tcp --dport 445 -j DROP
+sudo iptables -L INPUT -n --line-numbers
+sudo iptables -D INPUT -s 192.168.56.102 -p tcp --dport 445 -j DROP
+```
+
+### Result
+
+The incident demonstrated that share access problems can be caused by firewall filtering even when:
+
+- the server is reachable
+- Samba is running
+- the share configuration itself has not changed
+
+This scenario helped reinforce the difference between:
+
+- service availability
+- share configuration
+- file permissions
+- network/firewall access control
 
 ---
 

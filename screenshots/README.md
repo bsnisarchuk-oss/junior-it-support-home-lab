@@ -13,7 +13,7 @@ All screenshots in this directory should reflect real completed steps from the p
 | `server/` | Ubuntu Server validation, SSH checks, and Samba validation |
 | `workstation/` | Windows workstation validation and access to the Samba share |
 | `network/` | Reserved for future network-specific validation screenshots after manual lab testing |
-| `incidents/` | Future incident evidence captured during simulated troubleshooting |
+| `incidents/` | Incident evidence grouped into per-incident subfolders such as `incident_01/` and `incident_04/` |
 
 ---
 
@@ -71,12 +71,12 @@ Current workstation-side evidence covers:
 
 ---
 
-## Placeholder Folders
+## Folder Notes
 
-The folders below are intentional placeholders, not completed evidence sets:
+The notes below explain how the special screenshot folders are used:
 
 - `network/` exists for future network-specific screenshots that are validated manually in the live lab
-- `incidents/` exists for future incident evidence after each scenario is reproduced and resolved
+- `incidents/` contains completed incident evidence organized by incident number
 
 ---
 
@@ -85,4 +85,4 @@ The folders below are intentional placeholders, not completed evidence sets:
 - keep only clear and useful screenshots
 - prefer one screenshot per validation step
 - use real evidence only
-- placeholder folders should contain a short README until real screenshots exist
+- keep incident evidence grouped by scenario folder
