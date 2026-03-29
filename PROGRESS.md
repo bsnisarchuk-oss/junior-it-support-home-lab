@@ -23,6 +23,7 @@ The following work is already done and verified:
 - `windows-test.txt` created from Windows inside the shared folder
 - current validation screenshots captured for the server and workstation
 - Incident 01 completed and documented with evidence
+- Incident 02 completed with Samba share-name troubleshooting
 - Incident 03 completed with shared-folder permissions troubleshooting
 - repository documentation aligned to the current real lab
 
@@ -69,7 +70,44 @@ Access to `\\192.168.56.101\companydocs` was restored successfully.
 
 ---
 
-## Day 6 - Incident 03: Shared folder permissions issue
+## Day 6 - Incident 02: Wrong share name in smb.conf
+
+Completed Incident 02 by simulating a Samba configuration issue where the expected share name was changed.
+
+### What was tested
+
+- The Samba service remained active
+- Network connectivity between Windows and Ubuntu remained healthy
+- The expected network path became unavailable due to a configuration mismatch
+
+### Actions performed
+
+- Changed the share name in `smb.conf` from `[companydocs]` to `[companydocs_disabled]`
+- Reproduced the problem from the Windows workstation
+- Verified that `ping` still worked
+- Verified that `smbd` was still running
+- Confirmed that the expected share path could not be opened
+- Restored the original share name
+- Confirmed that access to the shared folder worked again
+
+### Outcome
+
+This incident demonstrated troubleshooting of a Samba share configuration problem by separating:
+
+- network connectivity
+- service status
+- share-name configuration
+
+### Evidence captured
+
+- running Samba service
+- successful ping from Windows
+- failed access to `\\192.168.56.101\companydocs`
+- restored access after fixing the share name
+
+---
+
+## Day 7 - Incident 03: Shared folder permissions issue
 
 Completed Incident 03 by simulating a write-permissions problem on the Samba shared folder.
 
@@ -133,7 +171,7 @@ This is the verified baseline for the project at the moment.
 
 - `screenshots/server/` contains current server-side validation evidence
 - `screenshots/workstation/` contains current workstation-side validation evidence
-- `screenshots/incidents/` contains Incident 01 troubleshooting and recovery evidence
+- `screenshots/incidents/` contains evidence from the completed incident simulations
 - the current evidence set covers hostname checks, IP checks, connectivity checks, SSH status, Samba status, share access, and the Windows file write test
 
 ---

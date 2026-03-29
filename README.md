@@ -119,6 +119,46 @@ sudo systemctl status smbd
 
 ---
 
+## Incident 02 - Wrong share name in smb.conf
+
+A Samba share configuration issue was simulated by changing the share name in `smb.conf`.
+
+### Scenario
+
+- The original Samba share `[companydocs]` was temporarily renamed to `[companydocs_disabled]`
+- Samba service (`smbd`) remained active and running
+- The Windows workstation could still reach the server over the network
+- However, the expected network path `\\192.168.56.101\companydocs` was no longer available
+
+### Symptoms observed
+
+- `ping 192.168.56.101` succeeded
+- Samba service was running normally
+- Windows could not open `\\192.168.56.101\companydocs`
+- The issue was not caused by network failure or service outage
+
+### Root cause
+
+The expected share name was changed in Samba configuration, so the Windows workstation was trying to access a share path that no longer existed.
+
+### Diagnosis steps
+
+- Verified server connectivity from Windows
+- Confirmed `smbd` was active using `systemctl status smbd`
+- Reviewed Samba configuration
+- Identified that the share name had been changed from `[companydocs]` to `[companydocs_disabled]`
+
+### Fix applied
+
+The original share name `[companydocs]` was restored in `smb.conf`, and Samba configuration returned to the expected baseline.
+
+### Result
+
+- `\\192.168.56.101\companydocs` became accessible again
+- Normal shared-folder access was restored from the Windows workstation
+
+---
+
 ## Incident 03 - Shared folder permissions issue
 
 A permissions issue was simulated on the Samba-backed shared folder `/srv/companydocs/Shared`.
