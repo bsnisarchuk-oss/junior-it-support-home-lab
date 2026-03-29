@@ -1,23 +1,11 @@
-# Incident 03 - Software Installation Failure
+# Future Scenario - Software Installation Failure
 
-**Type:** planned lab simulation for future troubleshooting practice  
+**Type:** planned future scenario  
 **Status:** not yet reproduced in the live lab
 
 ---
 
-## Incident Details
-
-| Field | Value |
-|-------|-------|
-| Incident ID | `INC-003` |
-| Reported by | user on `office-pc-01` |
-| Affected device | `office-pc-01` |
-| Priority | Low |
-| Current repo state | Scenario outline prepared, exact test still to be chosen in the live lab |
-
----
-
-## Description
+## Scenario Goal
 
 An approved desktop application fails to install on the Windows workstation.
 
@@ -62,9 +50,7 @@ Interpretation:
 
 ---
 
-## Expected Root Cause
-
-Record the real finding after the live test.
+## Likely Root Cause
 
 Likely causes for this lab:
 
@@ -74,7 +60,7 @@ Likely causes for this lab:
 
 ---
 
-## Expected Resolution
+## Likely Resolution
 
 Typical fix directions:
 
@@ -86,7 +72,7 @@ If you test a `winget` install later, record the exact package ID and exact comm
 
 ---
 
-## Screenshots to Capture Later
+## Evidence To Capture Later
 
 - [ ] `screenshots/incidents/inc-003-install-error.png`
 - [ ] `screenshots/incidents/inc-003-system-checks.png`

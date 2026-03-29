@@ -267,23 +267,22 @@ This is the verified baseline for the project at the moment.
 
 The following work still needs to be done manually in the live lab:
 
-- reproduce incident scenarios and document the results
-- document the live Samba server-side path directly from the running server
-- test Samba permissions more deeply
+- run a Windows software-installation incident and document the results
+- capture the full live Samba config block and share mapping directly from the server
 - configure and verify backup automation on the live server
-- update hardware and software inventory details after manual verification
+- update host hardware and verified software version details
 
 ---
 
 ## Next Planned Step
 
-- document the live Samba server-side path directly from the running server
+- run a Windows software-installation incident and capture evidence
 
 ---
 
 ## Later Planned Work
 
-- deeper Samba documentation and permission testing
+- deeper Samba documentation
 - backup workflow design, implementation, and validation
 - inventory refinement and additional validation evidence
 

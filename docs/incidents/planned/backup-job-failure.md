@@ -1,23 +1,11 @@
-# Incident 04 - Backup Job Failure
+# Future Scenario - Backup Job Failure
 
-**Type:** planned future incident  
+**Type:** planned future scenario  
 **Status:** blocked until backup automation exists in the live lab
 
 ---
 
-## Incident Details
-
-| Field | Value |
-|-------|-------|
-| Incident ID | `INC-004` |
-| Reported by | log review on `office-srv-01` |
-| Affected device | `office-srv-01` |
-| Priority | High |
-| Current repo state | Not ready to reproduce yet because backup automation is not yet verified |
-
----
-
-## Description
+## Scenario Goal
 
 This incident is reserved for a later phase of the project.
 
@@ -56,7 +44,7 @@ sudo <deployed-backup-script>
 
 ---
 
-## Planned Resolution
+## Likely Resolution
 
 The exact fix will depend on the actual failure, but common paths are:
 
@@ -67,7 +55,7 @@ The exact fix will depend on the actual failure, but common paths are:
 
 ---
 
-## Screenshots to Capture Later
+## Evidence To Capture Later
 
 - [ ] `screenshots/incidents/inc-004-empty-log.png`
 - [ ] `screenshots/incidents/inc-004-script-check.png`

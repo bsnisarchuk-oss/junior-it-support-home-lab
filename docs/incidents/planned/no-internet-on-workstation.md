@@ -1,23 +1,11 @@
-# Incident 01 - No Internet Access on Workstation
+# Future Scenario - No Internet Access on Workstation
 
-**Type:** planned lab simulation for future troubleshooting practice  
+**Type:** planned future scenario  
 **Status:** not yet reproduced in the live lab
 
 ---
 
-## Incident Details
-
-| Field | Value |
-|-------|-------|
-| Incident ID | `INC-001` |
-| Reported by | user on `office-pc-01` |
-| Affected device | `office-pc-01` (`192.168.56.102`) |
-| Priority | Medium |
-| Current repo state | Scenario prepared, evidence not captured yet |
-
----
-
-## Description
+## Scenario Goal
 
 The workstation loses internet access even though the lab server may still be reachable on the host-only network.
 
@@ -32,7 +20,7 @@ That means the workstation can lose internet access while still being able to ta
 
 ## Planned Reproduction
 
-Choose one method when you are ready to perform the simulation:
+Choose one method when you are ready to perform the simulation in the live lab:
 
 ### Method A - Disable the NAT-side adapter
 
@@ -66,9 +54,7 @@ Interpretation:
 
 ---
 
-## Expected Root Cause
-
-Record the real finding after the live test.
+## Likely Root Cause
 
 Possible expected outcomes:
 
@@ -77,7 +63,7 @@ Possible expected outcomes:
 
 ---
 
-## Expected Resolution
+## Likely Resolution
 
 When you run this incident for real, resolve it by restoring the broken internet-side setting:
 
@@ -94,7 +80,7 @@ ping 192.168.56.101
 
 ---
 
-## Screenshots to Capture Later
+## Evidence To Capture Later
 
 - [ ] `screenshots/incidents/inc-001-ipconfig-broken.png`
 - [ ] `screenshots/incidents/inc-001-internet-failed.png`

@@ -54,12 +54,10 @@ The items below are already true in the current live lab:
 
 The items below are **not** yet marked complete in the current lab and still require manual work:
 
-- [ ] reproduce Incident 01 and capture screenshots
-- [ ] reproduce Incident 02 and capture screenshots
-- [ ] define and test the software-installation incident on the current workstation
+- [ ] define and test a software-installation incident on the current workstation
 - [ ] configure and test backup automation on the live server
-- [ ] capture the live Samba server-side path and document it
-- [ ] expand inventory with host hardware details and any verified software details
+- [ ] capture the live Samba config block and document the share mapping more explicitly
+- [ ] expand inventory with host hardware details and verified software versions
 
 ---
 

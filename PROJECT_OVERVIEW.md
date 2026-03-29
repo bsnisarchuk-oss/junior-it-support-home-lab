@@ -108,9 +108,9 @@ It is especially relevant to entry-level roles such as desktop support, helpdesk
 
 The next planned phase of the lab includes:
 
-- incident simulation and evidence capture
-- deeper Samba permission testing
+- a Windows software-installation incident with evidence capture
 - documenting the live Samba configuration in more detail
+- recording verified software versions and host hardware details
 - backup automation after it is configured and tested
 
 ---

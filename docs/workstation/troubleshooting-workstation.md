@@ -34,7 +34,7 @@ ipconfig /flushdns
 | Can reach `8.8.8.8` but not `google.com` | DNS issue |
 | Cannot reach server or internet | broader adapter or routing issue |
 
-See also: `docs/incidents/incident-01-no-internet.md`
+See also: `docs/incidents/planned/no-internet-on-workstation.md`
 
 ---
 
@@ -56,7 +56,7 @@ Then try to open:
 
 If the server is reachable but port 445 is closed, check `smbd` on the server.
 
-See also: `docs/incidents/incident-02-shared-folder-inaccessible.md`
+See also: `docs/incidents/completed/incident-01-samba-service-outage.md`, `docs/incidents/completed/incident-02-wrong-share-name-in-smb-conf.md`, `docs/incidents/completed/incident-04-firewall-blocks-smb-access.md`
 
 ---
 
@@ -78,7 +78,7 @@ Common fix directions:
 - confirm enough free disk space exists
 - confirm the Windows Installer service is available
 
-See also: `docs/incidents/incident-03-software-installation-failure.md`
+See also: `docs/incidents/planned/software-installation-failure.md`
 
 ---
 

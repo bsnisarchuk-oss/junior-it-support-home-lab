@@ -2,7 +2,7 @@
 
 **Status:** the Samba service is working in the current live lab.
 
-This file records the share as it is validated today. It does not assume any extra permissions work, mapped drive letters, or undocumented server-side paths.
+This file records the share as it is validated today. The Windows-visible share path is verified, and the repository also documents the `Shared` subfolder path used in completed permissions testing.
 
 ---
 
@@ -15,6 +15,7 @@ This file records the share as it is validated today. It does not assume any ext
 | Windows client | `office-pc-01` |
 | Share name | `companydocs` |
 | Windows path | `\\192.168.56.101\companydocs` |
+| Documented Linux subfolder | `/srv/companydocs/Shared` |
 | Validation evidence | `windows-test.txt` was created from Windows in the share |
 
 ---
@@ -52,11 +53,14 @@ Then open the share in File Explorer:
 
 ---
 
-## Documentation Gap to Fill Later
+## Documentation Note
 
-The repository currently documents the **Windows-visible** share path, which is already verified.
+The repository now documents:
 
-The exact **server-side filesystem path** for the live `companydocs` share should be captured directly from the current server configuration in a later documentation pass. It is intentionally not guessed here.
+- the verified Windows path `\\192.168.56.101\companydocs`
+- the Linux subfolder path `/srv/companydocs/Shared` used in completed Incident 03 testing
+
+A later documentation pass can still capture the exact live `smb.conf` share block and confirm the full server-side mapping for the share root.
 
 ---
 
@@ -69,4 +73,4 @@ The exact **server-side filesystem path** for the live `companydocs` share shoul
 | Samba not running | `sudo systemctl status smbd` | Start `smbd` and review logs |
 | Config error | `testparm` | Fix the Samba config before restarting |
 
-See also: `docs/incidents/incident-02-shared-folder-inaccessible.md`
+See also: `docs/incidents/README.md`

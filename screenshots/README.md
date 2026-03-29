@@ -21,6 +21,12 @@ All screenshots in this directory should reflect real completed steps from the p
 
 Screenshots use ordered numeric prefixes to show the order of the work.
 
+Naming convention used in the repo:
+
+- top-level validation folders use `NN-description.png`
+- incident folders use `incident_0X/NN-description.png`
+- the incident folder already provides the incident number, so the filename itself does not repeat it
+
 Examples from the current repo:
 
 ```text
@@ -39,6 +45,9 @@ workstation/13-windows-ipconfig.png
 workstation/14-ping-office-srv-01.png
 workstation/15-companydocs-open-from-windows.png
 workstation/16-companydocs-write-test.png
+
+incidents/incident_02/01-share-working-before-config-change.png
+incidents/incident_04/10-write-test-restored.png
 ```
 
 ---
@@ -86,3 +95,4 @@ The notes below explain how the special screenshot folders are used:
 - prefer one screenshot per validation step
 - use real evidence only
 - keep incident evidence grouped by scenario folder
+- keep incident filenames in chronological order using `01-`, `02-`, `03-`

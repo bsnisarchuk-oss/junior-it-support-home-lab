@@ -2,6 +2,8 @@
 
 **Status:** future hardening step. Do not mark this as complete until it has been tested manually on `office-srv-01`.
 
+Completed Incident 04 used a temporary one-off `iptables` rule for troubleshooting simulation. That incident does **not** mean persistent UFW hardening is already configured in the current lab.
+
 ---
 
 ## Goal

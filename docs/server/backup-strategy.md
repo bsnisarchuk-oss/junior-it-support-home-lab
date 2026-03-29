@@ -52,4 +52,4 @@ When this phase is completed later, document:
 - the log location
 - the evidence screenshots captured from the live server
 
-See also: `docs/incidents/incident-04-backup-job-failure.md`
+See also: `docs/incidents/planned/backup-job-failure.md`
