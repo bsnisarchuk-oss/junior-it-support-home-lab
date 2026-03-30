@@ -79,6 +79,8 @@ The incident reports and screenshot folders are the strongest proof that the pro
 | [docs/incidents/README.md](docs/incidents/README.md) | completed incidents, future scenarios, and structure |
 | [docs/server/samba-shared-folder-setup.md](docs/server/samba-shared-folder-setup.md) | current Samba reference |
 | [docs/workstation/troubleshooting-workstation.md](docs/workstation/troubleshooting-workstation.md) | Windows-side troubleshooting notes |
+| [scripts/README.md](scripts/README.md) | helper scripts aligned to the current lab layout |
+| [docs/inventory/software-inventory.md](docs/inventory/software-inventory.md) | verified software and helper-tooling boundaries |
 | [NETWORK_DIAGRAM.md](NETWORK_DIAGRAM.md) | simple topology overview |
 
 ---
@@ -89,6 +91,7 @@ The incident reports and screenshot folders are the strongest proof that the pro
 - document the live Samba configuration block in more detail
 - record host hardware details and verified software versions
 - configure and validate backup automation
+- capture pre-fix failure evidence if Incident 03 is reproduced safely later
 
 ---
 

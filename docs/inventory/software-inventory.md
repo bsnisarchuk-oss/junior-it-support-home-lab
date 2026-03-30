@@ -1,6 +1,6 @@
 # Software Inventory
 
-This file records software that is **verified** in the current lab and separates it from software that is only planned.
+This file records software that is verified by the current repository evidence and keeps helper tooling separate from anything that is only planned.
 
 ---
 
@@ -8,33 +8,45 @@ This file records software that is **verified** in the current lab and separates
 
 ### `office-srv-01`
 
-| Software | Version | Purpose | Status |
-|----------|---------|---------|--------|
-| Ubuntu Server | _(version not recorded in repo)_ | Server OS | Verified running |
-| OpenSSH Server | _(version not recorded in repo)_ | Remote administration | Verified working |
-| Samba | _(version not recorded in repo)_ | Windows file sharing | Verified working |
+| Software | Version | Purpose | Verification status |
+|----------|---------|---------|---------------------|
+| Ubuntu Server | _(exact version not yet captured in repo)_ | Server OS | Verified running |
+| OpenSSH Server | _(exact version not yet captured in repo)_ | Remote administration | Verified working |
+| Samba (`smbd`) | _(exact version not yet captured in repo)_ | Windows file sharing | Verified working |
 
 ### `office-pc-01`
 
-| Software | Version | Purpose | Status |
-|----------|---------|---------|--------|
-| Windows 10 | _(version not recorded in repo)_ | Workstation OS | Verified running |
+| Software | Version | Purpose | Verification status |
+|----------|---------|---------|---------------------|
+| Windows 10 | _(exact version not yet captured in repo)_ | Workstation OS | Verified running |
+| Windows PowerShell | _(version not yet captured in repo)_ | Client-side diagnostics and validation commands | Verified in use for lab troubleshooting |
 
 ---
 
-## Planned or Not Yet Recorded
+## Helper Tooling Aligned to the Current Lab
 
-The items below may be added later, but they are not yet documented as verified in the live lab:
+The items below exist in the repository as helpers, but they are not yet documented as deployed or verified in the live lab:
 
+- `scripts/windows/install-common-software.ps1` for future workstation software testing
+- `scripts/linux/backup-docs.sh` aligned to the documented `companydocs` path, but backup automation is still future work
+- optional firewall hardening steps in `docs/server/firewall-setup.md`
+
+---
+
+## Still Not Recorded
+
+The items below should remain outside the verified inventory until they are checked directly in the live lab:
+
+- exact OS versions on both VMs
 - workstation application inventory
-- backup tooling on the server
-- firewall configuration details
+- deployed backup tooling and log location on the server
 
 ---
 
 ## Notes
 
 - only add software here after it has been checked in the live lab
+- keep helper scripts and future ideas separate from verified installed software
 - if you later document additional packages, record the actual version where possible
 
 ---
@@ -45,3 +57,4 @@ The items below may be added later, but they are not yet documented as verified 
 |------|--------|
 | 2026-03-22 | Initial inventory file created |
 | 2026-03-25 | Inventory aligned to the current verified lab state |
+| 2026-03-30 | Inventory updated to distinguish verified software from helper tooling and still-missing version data |

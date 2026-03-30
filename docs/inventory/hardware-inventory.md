@@ -1,12 +1,12 @@
 # Hardware Inventory
 
-This file records the current verified lab hardware and virtual machine inventory.
+This file records the current verified lab assets and keeps the live virtual machines separate from host-machine details that still need to be recorded manually.
 
 ---
 
 ## Host Machine
 
-Host machine details are still to be filled in manually.
+Host machine details are still to be filled in manually from the real PC that runs VirtualBox. They are intentionally left blank until they are checked directly on the host.
 
 | Component | Specification |
 |-----------|---------------|
@@ -37,9 +37,18 @@ Host machine details are still to be filled in manually.
 
 ---
 
+## Inventory Notes
+
+- the VM inventory above is the most important hardware evidence for the portfolio because it is supported by screenshots and incident reports
+- host machine details can be added later, but missing host specs do not change the truth of the documented lab work
+- if a VM is rebuilt later, update the hostname, IP, and notes here at the same time
+
+---
+
 ## Change Log
 
 | Date | Change |
 |------|--------|
 | 2026-03-22 | Initial inventory file created |
 | 2026-03-25 | Inventory aligned to the current verified two-VM lab |
+| 2026-03-30 | Notes expanded to separate verified VM inventory from still-manual host details |

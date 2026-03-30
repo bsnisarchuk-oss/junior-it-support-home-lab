@@ -1,23 +1,26 @@
 #!/bin/bash
-# create-shared-structure.sh - Create folder structure inside the shared directory
+# create-shared-structure.sh - Create the documented companydocs folder layout
 
 set -e
 
-# Template default only. Review before using in the live lab.
-SHARE_DIR="${SHARE_DIR:-/srv/shared}"
+# Defaults aligned to the current documented lab layout.
+SHARE_ROOT="${SHARE_ROOT:-/srv/companydocs}"
+SHARE_OWNER="${SHARE_OWNER:-nobody}"
+SHARE_GROUP="${SHARE_GROUP:-nogroup}"
+SHARE_MODE="${SHARE_MODE:-0775}"
 
-echo "[INFO] Creating shared folder structure in $SHARE_DIR..."
+echo "[INFO] Creating shared folder structure in $SHARE_ROOT..."
 
-mkdir -p "$SHARE_DIR/Documents"
-mkdir -p "$SHARE_DIR/IT/Drivers"
-mkdir -p "$SHARE_DIR/IT/Software"
-mkdir -p "$SHARE_DIR/IT/Scripts"
-mkdir -p "$SHARE_DIR/HR"
-mkdir -p "$SHARE_DIR/Public"
+mkdir -p "$SHARE_ROOT/Shared"
+mkdir -p "$SHARE_ROOT/IT/Drivers"
+mkdir -p "$SHARE_ROOT/IT/Software"
+mkdir -p "$SHARE_ROOT/IT/Scripts"
+mkdir -p "$SHARE_ROOT/HR"
+mkdir -p "$SHARE_ROOT/Public"
 
 # Set permissions
-chmod -R 0775 "$SHARE_DIR"
-chown -R nobody:nogroup "$SHARE_DIR"
+chmod -R "$SHARE_MODE" "$SHARE_ROOT"
+chown -R "$SHARE_OWNER:$SHARE_GROUP" "$SHARE_ROOT"
 
 echo "[DONE] Shared folder structure created:"
-find "$SHARE_DIR" -type d
+find "$SHARE_ROOT" -type d | sort

@@ -23,18 +23,18 @@ The intended backup flow is:
 
 ---
 
-## Important Documentation Gap
+## Current Script Alignment
 
-Before using the backup script in `scripts/linux/backup-docs.sh`, record the live server-side source path for the current `companydocs` share.
+The helper script in `scripts/linux/backup-docs.sh` now uses `/srv/companydocs` as its default source path so it matches the documented lab layout behind the `companydocs` share.
 
-That path is not guessed in this repository yet and should be captured directly from the running server configuration.
+That change improves consistency in the repository, but it still does **not** mean backup automation has already been deployed or validated on `office-srv-01`.
 
 ---
 
 ## Planned Implementation Checklist
 
-- [ ] identify and document the live source directory for `companydocs`
-- [ ] review and update `scripts/linux/backup-docs.sh` with the real source path
+- [ ] confirm the live source directory for `companydocs` directly from the server
+- [ ] review `scripts/linux/backup-docs.sh` again before deploying it on the server
 - [ ] copy the reviewed script to the server
 - [ ] run the script manually and verify the output
 - [ ] schedule the job with `cron`

@@ -2,7 +2,7 @@
 
 This file tracks the real current state of the lab, what has already been completed, and what is still planned.
 
-**Last updated:** 2026-03-29
+**Last updated:** 2026-03-30
 
 ---
 
@@ -27,6 +27,8 @@ The following work is already done and verified:
 - Incident 03 completed with shared-folder permissions troubleshooting
 - Incident 04 completed with firewall-based SMB access troubleshooting
 - repository documentation aligned to the current real lab
+- helper scripts aligned more closely to the current documented lab layout
+- inventory files refined to separate verified state from future or helper-only items
 
 ---
 
@@ -141,10 +143,10 @@ This incident demonstrated basic troubleshooting of file share permission issues
 
 ### Evidence captured
 
-- broken directory permissions on Ubuntu
-- access denied error in Windows
-- restored permissions on Ubuntu
+- restored permissions plus `ls -ld` and `stat` output on Ubuntu
+- `smbd` still active during recovery
 - successful file creation after the fix
+- pre-fix failure screenshots were not captured and should be added only if the scenario is recreated later
 
 ---
 
@@ -271,6 +273,7 @@ The following work still needs to be done manually in the live lab:
 - capture the full live Samba config block and share mapping directly from the server
 - configure and verify backup automation on the live server
 - update host hardware and verified software version details
+- capture pre-fix failure screenshots if Incident 03 is recreated safely later
 
 ---
 
